@@ -1,0 +1,860 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="DBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Issue">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="ProjectId" Type="int" Nullable="false" />
+          <Property Name="ParentId" Type="int" />
+          <Property Name="VersionId" Type="int" />
+          <Property Name="Subject" Type="nvarchar" MaxLength="500" Nullable="false" />
+          <Property Name="AuthorMemberId" Type="int" Nullable="false" />
+          <Property Name="AssignedToMemberId" Type="int" />
+          <Property Name="StatusId" Type="int" Nullable="false" />
+          <Property Name="DateCreated" Type="datetime2" Precision="2" Nullable="false" />
+          <Property Name="StartDate" Type="datetime2" Precision="2" />
+          <Property Name="DueDate" Type="date" />
+          <Property Name="EstimatedHours" Type="real" />
+          <Property Name="Client" Type="nvarchar" MaxLength="1000" />
+          <Property Name="DeadlineDate" Type="datetime2" Precision="2" />
+          <Property Name="Created" Type="datetime2" Precision="2" Nullable="false" />
+          <Property Name="LastHistoryDate" Type="datetime2" Precision="2" Nullable="false" />
+        </EntityType>
+        <EntityType Name="IssueHistory">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="IssueId" Type="int" Nullable="false" />
+          <Property Name="StatusId" Type="int" Nullable="false" />
+          <Property Name="Date" Type="datetime2" Precision="2" Nullable="false" />
+          <Property Name="MemberId" Type="int" Nullable="false" />
+          <Property Name="Comment" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="IssueRevision">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="IssueId" Type="int" Nullable="false" />
+          <Property Name="RevisionId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="IssueStatus">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="Code" Type="nvarchar" MaxLength="50" />
+          <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="IsClosed" Type="bit" Nullable="false" />
+          <Property Name="IsAccepted" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="IssueTime">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="IssueId" Type="int" Nullable="false" />
+          <Property Name="MemberId" Type="int" Nullable="false" />
+          <Property Name="Date" Type="date" Nullable="false" />
+          <Property Name="Hours" Type="real" Nullable="false" />
+          <Property Name="Comment" Type="nvarchar" MaxLength="2000" />
+        </EntityType>
+        <EntityType Name="IssueVersion">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="500" Nullable="false" />
+          <Property Name="DueDate" Type="datetime2" Precision="2" />
+          <Property Name="IsClosed" Type="bit" Nullable="false" />
+          <Property Name="UpdateDate" Type="datetime2" Precision="2" Nullable="false" />
+          <Property Name="Created" Type="datetime2" Precision="2" Nullable="false" />
+          <Property Name="Updated" Type="datetime2" Precision="2" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Member">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="LeadMemberId" Type="int" />
+          <Property Name="Name" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="GroupName" Type="nvarchar" MaxLength="10" Nullable="false" />
+          <Property Name="DateStart" Type="date" Nullable="false" />
+          <Property Name="UseForParticipationAutoFill" Type="bit" Nullable="false" />
+          <Property Name="RedmineMemberId" Type="int" />
+        </EntityType>
+        <EntityType Name="Project">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="Code" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="200" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Revision">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="Date" Type="datetime2" Precision="2" Nullable="false" />
+          <Property Name="MemberId" Type="int" Nullable="false" />
+          <Property Name="Comment" Type="nvarchar(max)" />
+        </EntityType>
+        <Association Name="FK_Issue_IssueStatus">
+          <End Role="IssueStatus" Type="Self.IssueStatus" Multiplicity="1" />
+          <End Role="Issue" Type="Self.Issue" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="IssueStatus">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Issue">
+              <PropertyRef Name="StatusId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Issue_IssueVersion">
+          <End Role="IssueVersion" Type="Self.IssueVersion" Multiplicity="0..1" />
+          <End Role="Issue" Type="Self.Issue" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="IssueVersion">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Issue">
+              <PropertyRef Name="VersionId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Issue_MemberAssignedTo">
+          <End Role="Member" Type="Self.Member" Multiplicity="0..1" />
+          <End Role="Issue" Type="Self.Issue" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Member">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Issue">
+              <PropertyRef Name="AssignedToMemberId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Issue_MemberAuthor">
+          <End Role="Member" Type="Self.Member" Multiplicity="1" />
+          <End Role="Issue" Type="Self.Issue" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Member">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Issue">
+              <PropertyRef Name="AuthorMemberId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Issue_Project">
+          <End Role="Project" Type="Self.Project" Multiplicity="1" />
+          <End Role="Issue" Type="Self.Issue" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Project">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Issue">
+              <PropertyRef Name="ProjectId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_IssueHistory_Issue">
+          <End Role="Issue" Type="Self.Issue" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="IssueHistory" Type="Self.IssueHistory" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Issue">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="IssueHistory">
+              <PropertyRef Name="IssueId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_IssueHistory_IssueStatus">
+          <End Role="IssueStatus" Type="Self.IssueStatus" Multiplicity="1" />
+          <End Role="IssueHistory" Type="Self.IssueHistory" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="IssueStatus">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="IssueHistory">
+              <PropertyRef Name="StatusId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_IssueHistory_Member">
+          <End Role="Member" Type="Self.Member" Multiplicity="1" />
+          <End Role="IssueHistory" Type="Self.IssueHistory" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Member">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="IssueHistory">
+              <PropertyRef Name="MemberId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_IssueRevision_Issue">
+          <End Role="Issue" Type="Self.Issue" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="IssueRevision" Type="Self.IssueRevision" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Issue">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="IssueRevision">
+              <PropertyRef Name="IssueId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_IssueRevision_Revision">
+          <End Role="Revision" Type="Self.Revision" Multiplicity="1" />
+          <End Role="IssueRevision" Type="Self.IssueRevision" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Revision">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="IssueRevision">
+              <PropertyRef Name="RevisionId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_IssueTime_Issue">
+          <End Role="Issue" Type="Self.Issue" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="IssueTime" Type="Self.IssueTime" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Issue">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="IssueTime">
+              <PropertyRef Name="IssueId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_IssueTime_Member">
+          <End Role="Member" Type="Self.Member" Multiplicity="1" />
+          <End Role="IssueTime" Type="Self.IssueTime" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Member">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="IssueTime">
+              <PropertyRef Name="MemberId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Member_Member">
+          <End Role="Member" Type="Self.Member" Multiplicity="0..1" />
+          <End Role="Member1" Type="Self.Member" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Member">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Member1">
+              <PropertyRef Name="LeadMemberId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Revision_Member">
+          <End Role="Member" Type="Self.Member" Multiplicity="1" />
+          <End Role="Revision" Type="Self.Revision" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Member">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Revision">
+              <PropertyRef Name="MemberId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="DBModelStoreContainer">
+          <EntitySet Name="Issue" EntityType="Self.Issue" Schema="prize" store:Type="Tables" />
+          <EntitySet Name="IssueHistory" EntityType="Self.IssueHistory" Schema="prize" store:Type="Tables" />
+          <EntitySet Name="IssueRevision" EntityType="Self.IssueRevision" Schema="prize" store:Type="Tables" />
+          <EntitySet Name="IssueStatus" EntityType="Self.IssueStatus" Schema="prize" store:Type="Tables" />
+          <EntitySet Name="IssueTime" EntityType="Self.IssueTime" Schema="prize" store:Type="Tables" />
+          <EntitySet Name="IssueVersion" EntityType="Self.IssueVersion" Schema="prize" store:Type="Tables" />
+          <EntitySet Name="Member" EntityType="Self.Member" Schema="prize" store:Type="Tables" />
+          <EntitySet Name="Project" EntityType="Self.Project" Schema="prize" store:Type="Tables" />
+          <EntitySet Name="Revision" EntityType="Self.Revision" Schema="prize" store:Type="Tables" />
+          <AssociationSet Name="FK_Issue_IssueStatus" Association="Self.FK_Issue_IssueStatus">
+            <End Role="IssueStatus" EntitySet="IssueStatus" />
+            <End Role="Issue" EntitySet="Issue" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Issue_IssueVersion" Association="Self.FK_Issue_IssueVersion">
+            <End Role="IssueVersion" EntitySet="IssueVersion" />
+            <End Role="Issue" EntitySet="Issue" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Issue_MemberAssignedTo" Association="Self.FK_Issue_MemberAssignedTo">
+            <End Role="Member" EntitySet="Member" />
+            <End Role="Issue" EntitySet="Issue" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Issue_MemberAuthor" Association="Self.FK_Issue_MemberAuthor">
+            <End Role="Member" EntitySet="Member" />
+            <End Role="Issue" EntitySet="Issue" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Issue_Project" Association="Self.FK_Issue_Project">
+            <End Role="Project" EntitySet="Project" />
+            <End Role="Issue" EntitySet="Issue" />
+          </AssociationSet>
+          <AssociationSet Name="FK_IssueHistory_Issue" Association="Self.FK_IssueHistory_Issue">
+            <End Role="Issue" EntitySet="Issue" />
+            <End Role="IssueHistory" EntitySet="IssueHistory" />
+          </AssociationSet>
+          <AssociationSet Name="FK_IssueHistory_IssueStatus" Association="Self.FK_IssueHistory_IssueStatus">
+            <End Role="IssueStatus" EntitySet="IssueStatus" />
+            <End Role="IssueHistory" EntitySet="IssueHistory" />
+          </AssociationSet>
+          <AssociationSet Name="FK_IssueHistory_Member" Association="Self.FK_IssueHistory_Member">
+            <End Role="Member" EntitySet="Member" />
+            <End Role="IssueHistory" EntitySet="IssueHistory" />
+          </AssociationSet>
+          <AssociationSet Name="FK_IssueRevision_Issue" Association="Self.FK_IssueRevision_Issue">
+            <End Role="Issue" EntitySet="Issue" />
+            <End Role="IssueRevision" EntitySet="IssueRevision" />
+          </AssociationSet>
+          <AssociationSet Name="FK_IssueRevision_Revision" Association="Self.FK_IssueRevision_Revision">
+            <End Role="Revision" EntitySet="Revision" />
+            <End Role="IssueRevision" EntitySet="IssueRevision" />
+          </AssociationSet>
+          <AssociationSet Name="FK_IssueTime_Issue" Association="Self.FK_IssueTime_Issue">
+            <End Role="Issue" EntitySet="Issue" />
+            <End Role="IssueTime" EntitySet="IssueTime" />
+          </AssociationSet>
+          <AssociationSet Name="FK_IssueTime_Member" Association="Self.FK_IssueTime_Member">
+            <End Role="Member" EntitySet="Member" />
+            <End Role="IssueTime" EntitySet="IssueTime" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Member_Member" Association="Self.FK_Member_Member">
+            <End Role="Member" EntitySet="Member" />
+            <End Role="Member1" EntitySet="Member" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Revision_Member" Association="Self.FK_Revision_Member">
+            <End Role="Member" EntitySet="Member" />
+            <End Role="Revision" EntitySet="Revision" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="DBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="DB" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Issue" EntityType="DBModel.Issue" />
+          <EntitySet Name="IssueHistory" EntityType="DBModel.IssueHistory" />
+          <EntitySet Name="IssueRevision" EntityType="DBModel.IssueRevision" />
+          <EntitySet Name="IssueStatus" EntityType="DBModel.IssueStatus" />
+          <EntitySet Name="IssueTime" EntityType="DBModel.IssueTime" />
+          <EntitySet Name="IssueVersion" EntityType="DBModel.IssueVersion" />
+          <EntitySet Name="Member" EntityType="DBModel.Member" />
+          <EntitySet Name="Project" EntityType="DBModel.Project" />
+          <EntitySet Name="Revision" EntityType="DBModel.Revision" />
+          <AssociationSet Name="FK_Issue_IssueStatus" Association="DBModel.FK_Issue_IssueStatus">
+            <End Role="IssueStatus" EntitySet="IssueStatus" />
+            <End Role="Issue" EntitySet="Issue" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Issue_IssueVersion" Association="DBModel.FK_Issue_IssueVersion">
+            <End Role="IssueVersion" EntitySet="IssueVersion" />
+            <End Role="Issue" EntitySet="Issue" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Issue_MemberAssignedTo" Association="DBModel.FK_Issue_MemberAssignedTo">
+            <End Role="Member" EntitySet="Member" />
+            <End Role="Issue" EntitySet="Issue" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Issue_MemberAuthor" Association="DBModel.FK_Issue_MemberAuthor">
+            <End Role="Member" EntitySet="Member" />
+            <End Role="Issue" EntitySet="Issue" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Issue_Project" Association="DBModel.FK_Issue_Project">
+            <End Role="Project" EntitySet="Project" />
+            <End Role="Issue" EntitySet="Issue" />
+          </AssociationSet>
+          <AssociationSet Name="FK_IssueHistory_Issue" Association="DBModel.FK_IssueHistory_Issue">
+            <End Role="Issue" EntitySet="Issue" />
+            <End Role="IssueHistory" EntitySet="IssueHistory" />
+          </AssociationSet>
+          <AssociationSet Name="FK_IssueRevision_Issue" Association="DBModel.FK_IssueRevision_Issue">
+            <End Role="Issue" EntitySet="Issue" />
+            <End Role="IssueRevision" EntitySet="IssueRevision" />
+          </AssociationSet>
+          <AssociationSet Name="FK_IssueTime_Issue" Association="DBModel.FK_IssueTime_Issue">
+            <End Role="Issue" EntitySet="Issue" />
+            <End Role="IssueTime" EntitySet="IssueTime" />
+          </AssociationSet>
+          <AssociationSet Name="FK_IssueHistory_IssueStatus" Association="DBModel.FK_IssueHistory_IssueStatus">
+            <End Role="IssueStatus" EntitySet="IssueStatus" />
+            <End Role="IssueHistory" EntitySet="IssueHistory" />
+          </AssociationSet>
+          <AssociationSet Name="FK_IssueHistory_Member" Association="DBModel.FK_IssueHistory_Member">
+            <End Role="Member" EntitySet="Member" />
+            <End Role="IssueHistory" EntitySet="IssueHistory" />
+          </AssociationSet>
+          <AssociationSet Name="FK_IssueRevision_Revision" Association="DBModel.FK_IssueRevision_Revision">
+            <End Role="Revision" EntitySet="Revision" />
+            <End Role="IssueRevision" EntitySet="IssueRevision" />
+          </AssociationSet>
+          <AssociationSet Name="FK_IssueTime_Member" Association="DBModel.FK_IssueTime_Member">
+            <End Role="Member" EntitySet="Member" />
+            <End Role="IssueTime" EntitySet="IssueTime" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Member_Member" Association="DBModel.FK_Member_Member">
+            <End Role="Member" EntitySet="Member" />
+            <End Role="Member1" EntitySet="Member" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Revision_Member" Association="DBModel.FK_Revision_Member">
+            <End Role="Member" EntitySet="Member" />
+            <End Role="Revision" EntitySet="Revision" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="Issue">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="ProjectId" Type="Int32" Nullable="false" />
+          <Property Name="ParentId" Type="Int32" />
+          <Property Name="VersionId" Type="Int32" />
+          <Property Name="Subject" Type="String" Nullable="false" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="AuthorMemberId" Type="Int32" Nullable="false" />
+          <Property Name="AssignedToMemberId" Type="Int32" />
+          <Property Name="StatusId" Type="Int32" Nullable="false" />
+          <Property Name="DateCreated" Type="DateTime" Nullable="false" Precision="2" />
+          <Property Name="StartDate" Type="DateTime" Precision="2" />
+          <Property Name="DueDate" Type="DateTime" Precision="0" />
+          <Property Name="EstimatedHours" Type="Single" />
+          <Property Name="Client" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="DeadlineDate" Type="DateTime" Precision="2" />
+          <Property Name="Created" Type="DateTime" Nullable="false" Precision="2" />
+          <Property Name="LastHistoryDate" Type="DateTime" Nullable="false" Precision="2" />
+          <NavigationProperty Name="Status" Relationship="DBModel.FK_Issue_IssueStatus" FromRole="Issue" ToRole="IssueStatus" />
+          <NavigationProperty Name="Version" Relationship="DBModel.FK_Issue_IssueVersion" FromRole="Issue" ToRole="IssueVersion" />
+          <NavigationProperty Name="AssignedMember" Relationship="DBModel.FK_Issue_MemberAssignedTo" FromRole="Issue" ToRole="Member" />
+          <NavigationProperty Name="AuthorMember" Relationship="DBModel.FK_Issue_MemberAuthor" FromRole="Issue" ToRole="Member" />
+          <NavigationProperty Name="Project" Relationship="DBModel.FK_Issue_Project" FromRole="Issue" ToRole="Project" />
+          <NavigationProperty Name="IssueHistory" Relationship="DBModel.FK_IssueHistory_Issue" FromRole="Issue" ToRole="IssueHistory" />
+          <NavigationProperty Name="IssueRevisions" Relationship="DBModel.FK_IssueRevision_Issue" FromRole="Issue" ToRole="IssueRevision" />
+          <NavigationProperty Name="IssueTime" Relationship="DBModel.FK_IssueTime_Issue" FromRole="Issue" ToRole="IssueTime" />
+        </EntityType>
+        <EntityType Name="IssueHistory">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="IssueId" Type="Int32" Nullable="false" />
+          <Property Name="StatusId" Type="Int32" Nullable="false" />
+          <Property Name="Date" Type="DateTime" Nullable="false" Precision="2" />
+          <Property Name="MemberId" Type="Int32" Nullable="false" />
+          <Property Name="Comment" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Issue" Relationship="DBModel.FK_IssueHistory_Issue" FromRole="IssueHistory" ToRole="Issue" />
+          <NavigationProperty Name="IssueStatus" Relationship="DBModel.FK_IssueHistory_IssueStatus" FromRole="IssueHistory" ToRole="IssueStatus" />
+          <NavigationProperty Name="Member" Relationship="DBModel.FK_IssueHistory_Member" FromRole="IssueHistory" ToRole="Member" />
+        </EntityType>
+        <EntityType Name="IssueRevision">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="IssueId" Type="Int32" Nullable="false" />
+          <Property Name="RevisionId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Issue" Relationship="DBModel.FK_IssueRevision_Issue" FromRole="IssueRevision" ToRole="Issue" />
+          <NavigationProperty Name="Revision" Relationship="DBModel.FK_IssueRevision_Revision" FromRole="IssueRevision" ToRole="Revision" />
+        </EntityType>
+        <EntityType Name="IssueStatus">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="Code" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="IsClosed" Type="Boolean" Nullable="false" />
+          <Property Name="IsAccepted" Type="Boolean" Nullable="false" />
+        </EntityType>
+        <EntityType Name="IssueTime">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="IssueId" Type="Int32" Nullable="false" />
+          <Property Name="MemberId" Type="Int32" Nullable="false" />
+          <Property Name="Date" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="Hours" Type="Single" Nullable="false" />
+          <Property Name="Comment" Type="String" MaxLength="2000" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Issue" Relationship="DBModel.FK_IssueTime_Issue" FromRole="IssueTime" ToRole="Issue" />
+          <NavigationProperty Name="Member" Relationship="DBModel.FK_IssueTime_Member" FromRole="IssueTime" ToRole="Member" />
+        </EntityType>
+        <EntityType Name="IssueVersion">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="DueDate" Type="DateTime" Precision="2" />
+          <Property Name="IsClosed" Type="Boolean" Nullable="false" />
+          <Property Name="UpdateDate" Type="DateTime" Nullable="false" Precision="2" />
+          <Property Name="Created" Type="DateTime" Nullable="false" Precision="2" />
+          <Property Name="Updated" Type="DateTime" Nullable="false" Precision="2" />
+        </EntityType>
+        <EntityType Name="Member">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="LeadMemberId" Type="Int32" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="GroupName" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="DateStart" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="UseForParticipationAutoFill" Type="Boolean" Nullable="false" />
+          <Property Name="RedmineMemberId" Type="Int32" />
+          <NavigationProperty Name="IssuesAssigned" Relationship="DBModel.FK_Issue_MemberAssignedTo" FromRole="Member" ToRole="Issue" />
+          <NavigationProperty Name="IssuesAuthor" Relationship="DBModel.FK_Issue_MemberAuthor" FromRole="Member" ToRole="Issue" />
+          <NavigationProperty Name="MemberParent" Relationship="DBModel.FK_Member_Member" FromRole="Member" ToRole="Member1" />
+          <NavigationProperty Name="MemberChilds" Relationship="DBModel.FK_Member_Member" FromRole="Member1" ToRole="Member" />
+        </EntityType>
+        <EntityType Name="Project">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="Code" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Issues" Relationship="DBModel.FK_Issue_Project" FromRole="Project" ToRole="Issue" />
+        </EntityType>
+        <EntityType Name="Revision">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="Date" Type="DateTime" Nullable="false" Precision="2" />
+          <Property Name="MemberId" Type="Int32" Nullable="false" />
+          <Property Name="Comment" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="IssueRevisions" Relationship="DBModel.FK_IssueRevision_Revision" FromRole="Revision" ToRole="IssueRevision" />
+          <NavigationProperty Name="Member" Relationship="DBModel.FK_Revision_Member" FromRole="Revision" ToRole="Member" />
+        </EntityType>
+        <Association Name="FK_Issue_IssueStatus">
+          <End Type="DBModel.IssueStatus" Role="IssueStatus" Multiplicity="1" />
+          <End Type="DBModel.Issue" Role="Issue" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="IssueStatus">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Issue">
+              <PropertyRef Name="StatusId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Issue_IssueVersion">
+          <End Type="DBModel.IssueVersion" Role="IssueVersion" Multiplicity="0..1" />
+          <End Type="DBModel.Issue" Role="Issue" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="IssueVersion">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Issue">
+              <PropertyRef Name="VersionId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Issue_MemberAssignedTo">
+          <End Type="DBModel.Member" Role="Member" Multiplicity="0..1" />
+          <End Type="DBModel.Issue" Role="Issue" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Member">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Issue">
+              <PropertyRef Name="AssignedToMemberId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Issue_MemberAuthor">
+          <End Type="DBModel.Member" Role="Member" Multiplicity="1" />
+          <End Type="DBModel.Issue" Role="Issue" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Member">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Issue">
+              <PropertyRef Name="AuthorMemberId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Issue_Project">
+          <End Type="DBModel.Project" Role="Project" Multiplicity="1" />
+          <End Type="DBModel.Issue" Role="Issue" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Project">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Issue">
+              <PropertyRef Name="ProjectId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_IssueHistory_Issue">
+          <End Type="DBModel.Issue" Role="Issue" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="DBModel.IssueHistory" Role="IssueHistory" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Issue">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="IssueHistory">
+              <PropertyRef Name="IssueId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_IssueRevision_Issue">
+          <End Type="DBModel.Issue" Role="Issue" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="DBModel.IssueRevision" Role="IssueRevision" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Issue">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="IssueRevision">
+              <PropertyRef Name="IssueId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_IssueTime_Issue">
+          <End Type="DBModel.Issue" Role="Issue" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="DBModel.IssueTime" Role="IssueTime" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Issue">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="IssueTime">
+              <PropertyRef Name="IssueId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_IssueHistory_IssueStatus">
+          <End Type="DBModel.IssueStatus" Role="IssueStatus" Multiplicity="1" />
+          <End Type="DBModel.IssueHistory" Role="IssueHistory" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="IssueStatus">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="IssueHistory">
+              <PropertyRef Name="StatusId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_IssueHistory_Member">
+          <End Type="DBModel.Member" Role="Member" Multiplicity="1" />
+          <End Type="DBModel.IssueHistory" Role="IssueHistory" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Member">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="IssueHistory">
+              <PropertyRef Name="MemberId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_IssueRevision_Revision">
+          <End Type="DBModel.Revision" Role="Revision" Multiplicity="1" />
+          <End Type="DBModel.IssueRevision" Role="IssueRevision" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Revision">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="IssueRevision">
+              <PropertyRef Name="RevisionId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_IssueTime_Member">
+          <End Type="DBModel.Member" Role="Member" Multiplicity="1" />
+          <End Type="DBModel.IssueTime" Role="IssueTime" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Member">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="IssueTime">
+              <PropertyRef Name="MemberId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Member_Member">
+          <End Type="DBModel.Member" Role="Member" Multiplicity="0..1" />
+          <End Type="DBModel.Member" Role="Member1" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Member">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Member1">
+              <PropertyRef Name="LeadMemberId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Revision_Member">
+          <End Type="DBModel.Member" Role="Member" Multiplicity="1" />
+          <End Type="DBModel.Revision" Role="Revision" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Member">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Revision">
+              <PropertyRef Name="MemberId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="DBModelStoreContainer" CdmEntityContainer="DB">
+          <EntitySetMapping Name="Issue">
+            <EntityTypeMapping TypeName="DBModel.Issue">
+              <MappingFragment StoreEntitySet="Issue">
+                <ScalarProperty Name="LastHistoryDate" ColumnName="LastHistoryDate" />
+                <ScalarProperty Name="Created" ColumnName="Created" />
+                <ScalarProperty Name="DeadlineDate" ColumnName="DeadlineDate" />
+                <ScalarProperty Name="Client" ColumnName="Client" />
+                <ScalarProperty Name="EstimatedHours" ColumnName="EstimatedHours" />
+                <ScalarProperty Name="DueDate" ColumnName="DueDate" />
+                <ScalarProperty Name="StartDate" ColumnName="StartDate" />
+                <ScalarProperty Name="DateCreated" ColumnName="DateCreated" />
+                <ScalarProperty Name="StatusId" ColumnName="StatusId" />
+                <ScalarProperty Name="AssignedToMemberId" ColumnName="AssignedToMemberId" />
+                <ScalarProperty Name="AuthorMemberId" ColumnName="AuthorMemberId" />
+                <ScalarProperty Name="Subject" ColumnName="Subject" />
+                <ScalarProperty Name="VersionId" ColumnName="VersionId" />
+                <ScalarProperty Name="ParentId" ColumnName="ParentId" />
+                <ScalarProperty Name="ProjectId" ColumnName="ProjectId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="IssueHistory">
+            <EntityTypeMapping TypeName="DBModel.IssueHistory">
+              <MappingFragment StoreEntitySet="IssueHistory">
+                <ScalarProperty Name="Comment" ColumnName="Comment" />
+                <ScalarProperty Name="MemberId" ColumnName="MemberId" />
+                <ScalarProperty Name="Date" ColumnName="Date" />
+                <ScalarProperty Name="StatusId" ColumnName="StatusId" />
+                <ScalarProperty Name="IssueId" ColumnName="IssueId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="IssueRevision">
+            <EntityTypeMapping TypeName="DBModel.IssueRevision">
+              <MappingFragment StoreEntitySet="IssueRevision">
+                <ScalarProperty Name="RevisionId" ColumnName="RevisionId" />
+                <ScalarProperty Name="IssueId" ColumnName="IssueId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="IssueStatus">
+            <EntityTypeMapping TypeName="DBModel.IssueStatus">
+              <MappingFragment StoreEntitySet="IssueStatus">
+                <ScalarProperty Name="IsAccepted" ColumnName="IsAccepted" />
+                <ScalarProperty Name="IsClosed" ColumnName="IsClosed" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Code" ColumnName="Code" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="IssueTime">
+            <EntityTypeMapping TypeName="DBModel.IssueTime">
+              <MappingFragment StoreEntitySet="IssueTime">
+                <ScalarProperty Name="Comment" ColumnName="Comment" />
+                <ScalarProperty Name="Hours" ColumnName="Hours" />
+                <ScalarProperty Name="Date" ColumnName="Date" />
+                <ScalarProperty Name="MemberId" ColumnName="MemberId" />
+                <ScalarProperty Name="IssueId" ColumnName="IssueId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="IssueVersion">
+            <EntityTypeMapping TypeName="DBModel.IssueVersion">
+              <MappingFragment StoreEntitySet="IssueVersion">
+                <ScalarProperty Name="Updated" ColumnName="Updated" />
+                <ScalarProperty Name="Created" ColumnName="Created" />
+                <ScalarProperty Name="UpdateDate" ColumnName="UpdateDate" />
+                <ScalarProperty Name="IsClosed" ColumnName="IsClosed" />
+                <ScalarProperty Name="DueDate" ColumnName="DueDate" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Member">
+            <EntityTypeMapping TypeName="DBModel.Member">
+              <MappingFragment StoreEntitySet="Member">
+                <ScalarProperty Name="RedmineMemberId" ColumnName="RedmineMemberId" />
+                <ScalarProperty Name="UseForParticipationAutoFill" ColumnName="UseForParticipationAutoFill" />
+                <ScalarProperty Name="DateStart" ColumnName="DateStart" />
+                <ScalarProperty Name="GroupName" ColumnName="GroupName" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="LeadMemberId" ColumnName="LeadMemberId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Project">
+            <EntityTypeMapping TypeName="DBModel.Project">
+              <MappingFragment StoreEntitySet="Project">
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Code" ColumnName="Code" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Revision">
+            <EntityTypeMapping TypeName="DBModel.Revision">
+              <MappingFragment StoreEntitySet="Revision">
+                <ScalarProperty Name="Comment" ColumnName="Comment" />
+                <ScalarProperty Name="MemberId" ColumnName="MemberId" />
+                <ScalarProperty Name="Date" ColumnName="Date" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

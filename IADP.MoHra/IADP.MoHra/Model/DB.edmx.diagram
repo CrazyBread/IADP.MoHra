@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="69a49d696c064a3fae4c502cffe5376a" Name="Diagram1">
+        <EntityTypeShape EntityType="DBModel.Issue" Width="1.5" PointX="3" PointY="2.75" IsExpanded="false" />
+        <EntityTypeShape EntityType="DBModel.IssueHistory" Width="1.5" PointX="5.25" PointY="0.75" IsExpanded="false" />
+        <EntityTypeShape EntityType="DBModel.IssueRevision" Width="1.5" PointX="5.25" PointY="2.75" IsExpanded="false" />
+        <EntityTypeShape EntityType="DBModel.IssueStatus" Width="1.5" PointX="0.75" PointY="2.75" IsExpanded="false" />
+        <EntityTypeShape EntityType="DBModel.IssueTime" Width="1.5" PointX="5.25" PointY="4.75" IsExpanded="false" />
+        <EntityTypeShape EntityType="DBModel.IssueVersion" Width="1.5" PointX="0.75" PointY="5.875" IsExpanded="false" />
+        <EntityTypeShape EntityType="DBModel.Member" Width="1.5" PointX="0.75" PointY="4.75" IsExpanded="false" />
+        <EntityTypeShape EntityType="DBModel.Project" Width="1.5" PointX="0.75" PointY="1.625" IsExpanded="false" />
+        <EntityTypeShape EntityType="DBModel.Revision" Width="1.5" PointX="3" PointY="0.75" IsExpanded="false" />
+        <AssociationConnector Association="DBModel.FK_Issue_IssueStatus" />
+        <AssociationConnector Association="DBModel.FK_Issue_IssueVersion" />
+        <AssociationConnector Association="DBModel.FK_Issue_MemberAssignedTo" />
+        <AssociationConnector Association="DBModel.FK_Issue_MemberAuthor" />
+        <AssociationConnector Association="DBModel.FK_Issue_Project" />
+        <AssociationConnector Association="DBModel.FK_IssueHistory_Issue" />
+        <AssociationConnector Association="DBModel.FK_IssueRevision_Issue" />
+        <AssociationConnector Association="DBModel.FK_IssueTime_Issue" />
+        <AssociationConnector Association="DBModel.FK_IssueHistory_IssueStatus" />
+        <AssociationConnector Association="DBModel.FK_IssueHistory_Member" />
+        <AssociationConnector Association="DBModel.FK_IssueRevision_Revision" />
+        <AssociationConnector Association="DBModel.FK_IssueTime_Member" />
+        <AssociationConnector Association="DBModel.FK_Member_Member" />
+        <AssociationConnector Association="DBModel.FK_Revision_Member" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>
