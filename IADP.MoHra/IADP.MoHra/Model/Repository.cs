@@ -34,7 +34,7 @@ namespace IADP.MoHra.Model
             _db = db ?? new DB();
         }
 
-        public List<DataRow> GetData(DateTime dateStart)
+        public List<DataRow> GetData(DateTime dateStart, DateTime? dateEnd = null)
         {
             var query = @"
                 SELECT 
@@ -64,15 +64,16 @@ namespace IADP.MoHra.Model
 	                AND t.SpentTime IS NOT NULL 
 	                AND i.ProjectId != 95 
 	                AND i.DateCreated > @DateStart
+                    AND i.DateCreated <= @DateEnd
                 ORDER BY IssueId
             ";
 
-            return _db.Database.SqlQuery<DataRow>(query, new SqlParameter("DateStart", dateStart)).ToList();
+            return _db.Database.SqlQuery<DataRow>(query, new SqlParameter("DateStart", dateStart), new SqlParameter("DateEnd", dateEnd ?? DateTime.Now)).ToList();
         }
 
-        public List<EvaluationResult> SpentTimeEvaluation(DateTime dateStart)
+        public List<EvaluationResult> SpentTimeEvaluation(DateTime dateStart, DateTime? dateEnd = null)
         {
-            return ( from d in GetData(dateStart)
+            return ( from d in GetData(dateStart, dateEnd)
                      group d by d.MemberId into g
                      select new EvaluationResult()
                      {
@@ -82,9 +83,9 @@ namespace IADP.MoHra.Model
                      }).OrderByDescending(d => d.Value).ToList();
         }
 
-        public List<EvaluationResult> SpentToEstimateEvaluation(DateTime dateStart)
+        public List<EvaluationResult> SpentToEstimateEvaluation(DateTime dateStart, DateTime? dateEnd = null)
         {
-            return (from d in GetData(dateStart)
+            return (from d in GetData(dateStart, dateEnd)
                     group d by d.MemberId into g
                     select new EvaluationResult()
                     {
@@ -94,9 +95,9 @@ namespace IADP.MoHra.Model
                     }).OrderBy(d => d.Value).ToList();
         }
 
-        public List<EvaluationResult> OnFixEvaluation(DateTime dateStart)
+        public List<EvaluationResult> OnFixEvaluation(DateTime dateStart, DateTime? dateEnd = null)
         {
-            return (from d in GetData(dateStart)
+            return (from d in GetData(dateStart, dateEnd)
                     group d by d.MemberId into g
                     select new EvaluationResult()
                     {
@@ -106,7 +107,7 @@ namespace IADP.MoHra.Model
                     }).OrderBy(d => d.Value).ToList();
         }
 
-        public List<EvaluationResult> OutOfHoursEvaluation(DateTime dateStart)
+        public List<EvaluationResult> OutOfHoursEvaluation(DateTime dateStart, DateTime? dateEnd = null)
         {
             var query = @"
                 SELECT 
@@ -139,14 +140,15 @@ namespace IADP.MoHra.Model
 	                AND t.SpentTime IS NOT NULL 
 	                AND i.ProjectId != 95 
 	                AND i.DateCreated > @DateStart
+                    AND i.DateCreated <= @DateEnd
                 GROUP BY m.Id, m.Name
                 ORDER BY 3 DESC
             ";
 
-            return _db.Database.SqlQuery<EvaluationResult>(query, new SqlParameter("DateStart", dateStart)).ToList();
+            return _db.Database.SqlQuery<EvaluationResult>(query, new SqlParameter("DateStart", dateStart), new SqlParameter("DateEnd", dateEnd ?? DateTime.Now)).ToList();
         }
 
-        public List<EvaluationResult> EstimateTimeByRevisionEvaluation(DateTime dateStart)
+        public List<EvaluationResult> EstimateTimeByRevisionEvaluation(DateTime dateStart, DateTime? dateEnd = null)
         {
             var query = @"
                 SELECT 
@@ -173,11 +175,12 @@ namespace IADP.MoHra.Model
 	                AND t.SpentTime IS NOT NULL 
 	                AND i.ProjectId != 95 
 	                AND i.DateCreated > @DateStart
+                    AND i.DateCreated <= @DateEnd
                 GROUP BY m.Id, m.Name
                 ORDER BY 3 DESC
             ";
 
-            return _db.Database.SqlQuery<EvaluationResult>(query, new SqlParameter("DateStart", dateStart)).ToList();
+            return _db.Database.SqlQuery<EvaluationResult>(query, new SqlParameter("DateStart", dateStart), new SqlParameter("DateEnd", dateEnd ?? DateTime.Now)).ToList();
         }
     }
 }
