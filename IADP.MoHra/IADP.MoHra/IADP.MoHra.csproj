@@ -98,6 +98,7 @@
     <Compile Include="Model\Project.cs">
       <DependentUpon>DB.tt</DependentUpon>
     </Compile>
+    <Compile Include="Model\Repository.cs" />
     <Compile Include="Model\Revision.cs">
       <DependentUpon>DB.tt</DependentUpon>
     </Compile>
