@@ -1,5 +1,7 @@
 ﻿using System.Windows.Forms;
 using System.Linq;
+using System.Collections.Generic;
+using IADP.MoHra.Model.Result;
 
 namespace IADP.MoHra.UI
 {
@@ -204,6 +206,48 @@ namespace IADP.MoHra.UI
             ).ToList();
             estimateTimeByRevisionGridView.DataSource = estimateTimeByRevisionList;
             #endregion
+        }
+
+        private void resumeToolStripMenuItem_Click(object sender, System.EventArgs e)
+        {
+            List<RAttribute> attributes = new List<RAttribute>();
+            attributes.Add(new RAttribute() { Short = "R1", IsDirect = true, JunMidValue = 2.00m, MidSenValue = 6.00m, Name = "Оценка выполнения задач" });
+            attributes.Add(new RAttribute() { Short = "R2", IsDirect = false, JunMidValue = 1.50m, MidSenValue = 1.00m, Name = "Отношения часов затраченных к оцененным" });
+            attributes.Add(new RAttribute() { Short = "R3", IsDirect = false, JunMidValue = 0.20m, MidSenValue = 0.10m, Name = "Возвращаемость к доработке" });
+            attributes.Add(new RAttribute() { Short = "R4", IsDirect = true, JunMidValue = 0.05m, MidSenValue = 0.20m, Name = "Работа в нерабочее время" });
+            attributes.Add(new RAttribute() { Short = "R5", IsDirect = true, JunMidValue = 2.00m, MidSenValue = 4.00m, Name = "Число оценочных часов на одну ревизию" });
+
+            List<RObject> objects = new List<RObject>();
+            objects.Add(new RObject() { Name = "Альмяшев Равиль" });
+            objects.Add(new RObject() { Name = "Артамонов Николай" });
+            objects.Add(new RObject() { Name = "Бусунин Александр" });
+            objects.Add(new RObject() { Name = "Желепов Алексей" });
+            objects.Add(new RObject() { Name = "Моисеев Владислав" });
+            objects.Add(new RObject() { Name = "Перевозников Сергей" });
+            objects.Add(new RObject() { Name = "Поковба Михаил" });
+            objects.Add(new RObject() { Name = "Прохоров Евгений" });
+            objects.Add(new RObject() { Name = "Фирсова Ольга" });
+            objects.Add(new RObject() { Name = "Храмков Евгений" });
+
+            var result = new RResult(objects, attributes);
+            FillObjectData(result, objects, attributes.First(i => i.Short == "R1"), spentTimeGridView, "TotalValue");
+            FillObjectData(result, objects, attributes.First(i => i.Short == "R2"), spentToEstimateGridView, "TotalValue");
+            FillObjectData(result, objects, attributes.First(i => i.Short == "R3"), onFixGridView, "TotalValue");
+            FillObjectData(result, objects, attributes.First(i => i.Short == "R4"), outOfHoursGridView, "TotalValue");
+            FillObjectData(result, objects, attributes.First(i => i.Short == "R5"), estimateTimeByRevisionGridView, "TotalValue");
+            var resultOfResult = result.GetResult();
+        }
+
+        private void FillObjectData(RResult result, List<RObject> objects, RAttribute attribute, DataGridView dataGridView, string neededColumnName)
+        {
+            for (int i = 0; i < dataGridView.Rows.Count; i++)
+            {
+                var memberName = dataGridView.Rows[i].Cells["MemberName"].Value.ToString();
+                var value = dataGridView.Rows[i].Cells[neededColumnName].Value;
+                var robject = objects.FirstOrDefault(j => j.Name == memberName);
+                if (robject != null)
+                    result.FillValue(robject, attribute, (decimal)value);
+            }
         }
     }
 }

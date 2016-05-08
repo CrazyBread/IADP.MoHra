@@ -38,6 +38,8 @@
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
             this.groupBox5 = new System.Windows.Forms.GroupBox();
+            this.menuStrip1 = new System.Windows.Forms.MenuStrip();
+            this.resumeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.spentTimeGridView)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.spentToEstimateGridView)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.onFixGridView)).BeginInit();
@@ -48,6 +50,7 @@
             this.groupBox3.SuspendLayout();
             this.groupBox4.SuspendLayout();
             this.groupBox5.SuspendLayout();
+            this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // spentTimeGridView
@@ -113,7 +116,7 @@
             // groupBox1
             // 
             this.groupBox1.Controls.Add(this.spentTimeGridView);
-            this.groupBox1.Location = new System.Drawing.Point(12, 12);
+            this.groupBox1.Location = new System.Drawing.Point(11, 27);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(964, 318);
             this.groupBox1.TabIndex = 3;
@@ -123,7 +126,7 @@
             // groupBox2
             // 
             this.groupBox2.Controls.Add(this.spentToEstimateGridView);
-            this.groupBox2.Location = new System.Drawing.Point(12, 336);
+            this.groupBox2.Location = new System.Drawing.Point(11, 351);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Size = new System.Drawing.Size(964, 318);
             this.groupBox2.TabIndex = 3;
@@ -133,7 +136,7 @@
             // groupBox3
             // 
             this.groupBox3.Controls.Add(this.onFixGridView);
-            this.groupBox3.Location = new System.Drawing.Point(12, 660);
+            this.groupBox3.Location = new System.Drawing.Point(11, 675);
             this.groupBox3.Name = "groupBox3";
             this.groupBox3.Size = new System.Drawing.Size(964, 318);
             this.groupBox3.TabIndex = 3;
@@ -143,7 +146,7 @@
             // groupBox4
             // 
             this.groupBox4.Controls.Add(this.outOfHoursGridView);
-            this.groupBox4.Location = new System.Drawing.Point(12, 984);
+            this.groupBox4.Location = new System.Drawing.Point(11, 999);
             this.groupBox4.Name = "groupBox4";
             this.groupBox4.Size = new System.Drawing.Size(964, 318);
             this.groupBox4.TabIndex = 3;
@@ -153,12 +156,29 @@
             // groupBox5
             // 
             this.groupBox5.Controls.Add(this.estimateTimeByRevisionGridView);
-            this.groupBox5.Location = new System.Drawing.Point(12, 1308);
+            this.groupBox5.Location = new System.Drawing.Point(11, 1323);
             this.groupBox5.Name = "groupBox5";
             this.groupBox5.Size = new System.Drawing.Size(964, 318);
             this.groupBox5.TabIndex = 3;
             this.groupBox5.TabStop = false;
             this.groupBox5.Text = "Среднее число оценочных часов на одну ревизию (J < 2; S > 4)";
+            // 
+            // menuStrip1
+            // 
+            this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.resumeToolStripMenuItem});
+            this.menuStrip1.Location = new System.Drawing.Point(0, 0);
+            this.menuStrip1.Name = "menuStrip1";
+            this.menuStrip1.Size = new System.Drawing.Size(987, 24);
+            this.menuStrip1.TabIndex = 4;
+            this.menuStrip1.Text = "menuStrip1";
+            // 
+            // resumeToolStripMenuItem
+            // 
+            this.resumeToolStripMenuItem.Name = "resumeToolStripMenuItem";
+            this.resumeToolStripMenuItem.Size = new System.Drawing.Size(109, 20);
+            this.resumeToolStripMenuItem.Text = "Резюмирование";
+            this.resumeToolStripMenuItem.Click += new System.EventHandler(this.resumeToolStripMenuItem_Click);
             // 
             // MainForm
             // 
@@ -171,8 +191,10 @@
             this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
+            this.Controls.Add(this.menuStrip1);
+            this.MainMenuStrip = this.menuStrip1;
             this.Name = "MainForm";
-            this.Text = "MainForm";
+            this.Text = "ИАДиП, ПИмд-11, Моисеев, Прохоров, Храмков";
             ((System.ComponentModel.ISupportInitialize)(this.spentTimeGridView)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.spentToEstimateGridView)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.onFixGridView)).EndInit();
@@ -183,7 +205,10 @@
             this.groupBox3.ResumeLayout(false);
             this.groupBox4.ResumeLayout(false);
             this.groupBox5.ResumeLayout(false);
+            this.menuStrip1.ResumeLayout(false);
+            this.menuStrip1.PerformLayout();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -199,6 +224,8 @@
         private System.Windows.Forms.GroupBox groupBox3;
         private System.Windows.Forms.GroupBox groupBox4;
         private System.Windows.Forms.GroupBox groupBox5;
+        private System.Windows.Forms.MenuStrip menuStrip1;
+        private System.Windows.Forms.ToolStripMenuItem resumeToolStripMenuItem;
     }
 }
 
