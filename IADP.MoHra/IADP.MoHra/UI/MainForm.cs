@@ -15,9 +15,10 @@ namespace IADP.MoHra.UI
             var rep = new Model.Repository();
 
             var dateStart = new System.DateTime(2015, 10, 1);
+            var dateEnd = new System.DateTime(2016, 04, 01);
 
             var spentTimeList = (
-                from total in rep.SpentTimeEvaluation(dateStart)
+                from total in rep.SpentTimeEvaluation(dateStart, dateEnd)
                 join oct in rep.SpentTimeEvaluation(dateStart, dateStart.AddMonths(1)) on total.MemberId equals oct.MemberId
                 into temp1
                 from oct in temp1.DefaultIfEmpty()
@@ -42,20 +43,28 @@ namespace IADP.MoHra.UI
                 select new
                 {
                     MemberName = total.MemberName
-                    , OctValue = oct?.Value
-                    , NovValue = nov?.Value
-                    , DecValue = dec?.Value
-                    , JanValue = jan?.Value
-                    , FebValue = feb?.Value
-                    , MarValue = mar?.Value
-                    , AprValue = apr?.Value
-                    , TotalValue = total.Value
+                    ,
+                    OctValue = oct?.Value
+                    ,
+                    NovValue = nov?.Value
+                    ,
+                    DecValue = dec?.Value
+                    ,
+                    JanValue = jan?.Value
+                    ,
+                    FebValue = feb?.Value
+                    ,
+                    MarValue = mar?.Value
+                    ,
+                    AprValue = apr?.Value
+                    ,
+                    TotalValue = total.Value
                 }
             ).ToList();
             spentTimeGridView.DataSource = spentTimeList;
 
             var spentToEstimateList = (
-                from total in rep.SpentToEstimateEvaluation(dateStart)
+                from total in rep.SpentToEstimateEvaluation(dateStart, dateEnd)
                 join oct in rep.SpentToEstimateEvaluation(dateStart, dateStart.AddMonths(1)) on total.MemberId equals oct.MemberId
                 into temp1
                 from oct in temp1.DefaultIfEmpty()
@@ -80,20 +89,28 @@ namespace IADP.MoHra.UI
                 select new
                 {
                     MemberName = total.MemberName
-                    , OctValue = oct?.Value
-                    , NovValue = nov?.Value
-                    , DecValue = dec?.Value
-                    , JanValue = jan?.Value
-                    , FebValue = feb?.Value
-                    , MarValue = mar?.Value
-                    , AprValue = apr?.Value
-                    , TotalValue = total.Value
+                    ,
+                    OctValue = oct?.Value
+                    ,
+                    NovValue = nov?.Value
+                    ,
+                    DecValue = dec?.Value
+                    ,
+                    JanValue = jan?.Value
+                    ,
+                    FebValue = feb?.Value
+                    ,
+                    MarValue = mar?.Value
+                    ,
+                    AprValue = apr?.Value
+                    ,
+                    TotalValue = total.Value
                 }
             ).ToList();
             spentToEstimateGridView.DataSource = spentToEstimateList;
 
             var onFixList = (
-                from total in rep.OnFixEvaluation(dateStart)
+                from total in rep.OnFixEvaluation(dateStart, dateEnd)
                 join oct in rep.OnFixEvaluation(dateStart, dateStart.AddMonths(1)) on total.MemberId equals oct.MemberId
                 into temp1
                 from oct in temp1.DefaultIfEmpty()
@@ -118,20 +135,28 @@ namespace IADP.MoHra.UI
                 select new
                 {
                     MemberName = total.MemberName
-                    , OctValue = oct?.Value
-                    , NovValue = nov?.Value
-                    , DecValue = dec?.Value
-                    , JanValue = jan?.Value
-                    , FebValue = feb?.Value
-                    , MarValue = mar?.Value
-                    , AprValue = apr?.Value
-                    , TotalValue = total.Value
+                    ,
+                    OctValue = oct?.Value
+                    ,
+                    NovValue = nov?.Value
+                    ,
+                    DecValue = dec?.Value
+                    ,
+                    JanValue = jan?.Value
+                    ,
+                    FebValue = feb?.Value
+                    ,
+                    MarValue = mar?.Value
+                    ,
+                    AprValue = apr?.Value
+                    ,
+                    TotalValue = total.Value
                 }
             ).ToList();
             onFixGridView.DataSource = onFixList;
 
             var outOfHoursList = (
-                from total in rep.OutOfHoursEvaluation(dateStart)
+                from total in rep.OutOfHoursEvaluation(dateStart, dateEnd)
                 join oct in rep.OutOfHoursEvaluation(dateStart, dateStart.AddMonths(1)) on total.MemberId equals oct.MemberId
                 into temp1
                 from oct in temp1.DefaultIfEmpty()
@@ -156,20 +181,28 @@ namespace IADP.MoHra.UI
                 select new
                 {
                     MemberName = total.MemberName
-                    , OctValue = oct?.Value
-                    , NovValue = nov?.Value
-                    , DecValue = dec?.Value
-                    , JanValue = jan?.Value
-                    , FebValue = feb?.Value
-                    , MarValue = mar?.Value
-                    , AprValue = apr?.Value
-                    , TotalValue = total.Value
+                    ,
+                    OctValue = oct?.Value
+                    ,
+                    NovValue = nov?.Value
+                    ,
+                    DecValue = dec?.Value
+                    ,
+                    JanValue = jan?.Value
+                    ,
+                    FebValue = feb?.Value
+                    ,
+                    MarValue = mar?.Value
+                    ,
+                    AprValue = apr?.Value
+                    ,
+                    TotalValue = total.Value
                 }
             ).ToList();
             outOfHoursGridView.DataSource = outOfHoursList;
 
             var estimateTimeByRevisionList = (
-                from total in rep.EstimateTimeByRevisionEvaluation(dateStart)
+                from total in rep.EstimateTimeByRevisionEvaluation(dateStart, dateEnd)
                 join oct in rep.EstimateTimeByRevisionEvaluation(dateStart, dateStart.AddMonths(1)) on total.MemberId equals oct.MemberId
                 into temp1
                 from oct in temp1.DefaultIfEmpty()
@@ -194,14 +227,22 @@ namespace IADP.MoHra.UI
                 select new
                 {
                     MemberName = total.MemberName
-                    , OctValue = oct?.Value
-                    , NovValue = nov?.Value
-                    , DecValue = dec?.Value
-                    , JanValue = jan?.Value
-                    , FebValue = feb?.Value
-                    , MarValue = mar?.Value
-                    , AprValue = apr?.Value
-                    , TotalValue = total.Value
+                    ,
+                    OctValue = oct?.Value
+                    ,
+                    NovValue = nov?.Value
+                    ,
+                    DecValue = dec?.Value
+                    ,
+                    JanValue = jan?.Value
+                    ,
+                    FebValue = feb?.Value
+                    ,
+                    MarValue = mar?.Value
+                    ,
+                    AprValue = apr?.Value
+                    ,
+                    TotalValue = total.Value
                 }
             ).ToList();
             estimateTimeByRevisionGridView.DataSource = estimateTimeByRevisionList;
@@ -214,7 +255,7 @@ namespace IADP.MoHra.UI
             attributes.Add(new RAttribute() { Short = "R1", IsDirect = true, JunMidValue = 2.00m, MidSenValue = 6.00m, Name = "Оценка выполнения задач" });
             attributes.Add(new RAttribute() { Short = "R2", IsDirect = false, JunMidValue = 1.50m, MidSenValue = 1.00m, Name = "Отношения часов затраченных к оцененным" });
             attributes.Add(new RAttribute() { Short = "R3", IsDirect = false, JunMidValue = 0.20m, MidSenValue = 0.10m, Name = "Возвращаемость к доработке" });
-            attributes.Add(new RAttribute() { Short = "R4", IsDirect = true, JunMidValue = 0.05m, MidSenValue = 0.20m, Name = "Работа в нерабочее время" });
+            attributes.Add(new RAttribute() { Short = "R4", IsDirect = true, JunMidValue = 0.05m, MidSenValue = 0.15m, Name = "Работа в нерабочее время" });
             attributes.Add(new RAttribute() { Short = "R5", IsDirect = true, JunMidValue = 2.00m, MidSenValue = 4.00m, Name = "Число оценочных часов на одну ревизию" });
 
             List<RObject> objects = new List<RObject>();
