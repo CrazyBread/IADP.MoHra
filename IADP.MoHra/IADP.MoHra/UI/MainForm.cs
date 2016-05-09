@@ -279,6 +279,9 @@ namespace IADP.MoHra.UI
             FillObjectData(result, objects, attributes.First(i => i.Short == "R4"), outOfHoursGridView, "TotalValue");
             FillObjectData(result, objects, attributes.First(i => i.Short == "R5"), estimateTimeByRevisionGridView, "TotalValue");
             var resultOfResult = result.GetResult();
+
+            var resumeForm = new ResumeForm();
+            resumeForm.ShowDialog();
         }
 
         private void FillObjectData(RResult result, List<RObject> objects, RAttribute attribute, DataGridView dataGridView, string neededColumnName)
