@@ -19,6 +19,8 @@ namespace IADP.MoHra.Model.Resume
                 throw new ArgumentException("Нет результатов");
             var result = "<h1>Резюмирование кластеризации по признакам</h1>";
             result += _GetInitialSummary();
+            result += _GetResultForA1();
+            result += _GetResultForA2();
             return result;
         }
 
@@ -48,6 +50,46 @@ namespace IADP.MoHra.Model.Resume
                 result += $"<p>Кластер с наибольшим числом элементов: {ClasterHelper.GetFullName(claster.Claster)}. Число элементов: {claster.Count}.</p>";
             }
 
+            return result;
+        }
+
+        private string _GetResultForA1()
+        {
+            var result = "";
+            var clastResult = _result.GetResult();
+
+            var objectsInClasters = clastResult.Select(i => i.Value.Claster).GroupBy(i => i, (i, j) => (double)j.Count()).ToList();
+            double resultValue = objectsInClasters.StdDev();
+
+            if (resultValue > 3)
+                result += "<p>По числу элементов кластеры отличаются сильно.</p>";
+            else if (resultValue > 1)
+                result += "<p>По числу элементов кластеры различаются не сильно.</p>";
+            else
+                result += "<p>По числу элементов кластеры одинаковы.</p>";
+
+            return result;
+        }
+
+        private string _GetResultForA2()
+        {
+            var result = "<h2>Подробная характеристика кластеров</h2><ul>";
+            var clastResult = _result.GetResult();
+
+            //throw new NotImplementedException();
+            var clasters = clastResult.Select(i => i.Value.Claster).Distinct().ToList();
+            foreach (var claster in clasters)
+            {
+                var clastName = ClasterHelper.GetFullName(claster);
+                var clastNum = clastResult.Count(i => i.Value.Claster == claster);
+
+                var clastValue = clastResult.Where(i => i.Value.Claster == claster).Select(i => (double)i.Value.Points).ToList().StdDev();
+                var clastValueResult = clastValue <= 3 ? "собранный" : "разрозненный";
+
+                result += $"<li><strong>Кластер {clastName}</strong>. Элементов: {clastNum}, {clastValueResult}.</li>";
+            }
+
+            result += "</ul>";
             return result;
         }
     }
