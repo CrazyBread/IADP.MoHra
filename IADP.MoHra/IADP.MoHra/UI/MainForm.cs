@@ -272,16 +272,32 @@ namespace IADP.MoHra.UI
                 new RObject() { Name = "Храмков Евгений", RoomNumber = 10 }
             };
 
-            var result = new RResult(objects, attributes);
-            FillObjectData(result, objects, attributes.First(i => i.Short == "R1"), spentTimeGridView, "TotalValue");
-            FillObjectData(result, objects, attributes.First(i => i.Short == "R2"), spentToEstimateGridView, "TotalValue");
-            FillObjectData(result, objects, attributes.First(i => i.Short == "R3"), onFixGridView, "TotalValue");
-            FillObjectData(result, objects, attributes.First(i => i.Short == "R4"), outOfHoursGridView, "TotalValue");
-            FillObjectData(result, objects, attributes.First(i => i.Short == "R5"), estimateTimeByRevisionGridView, "TotalValue");
-            var resultOfResult = result.GetResult();
+
+            var octResult = FillResult(objects, attributes, "OctValue");
+            var novResult = FillResult(objects, attributes, "NovValue");
+            var decResult = FillResult(objects, attributes, "DecValue");
+            var janResult = FillResult(objects, attributes, "JanValue");
+            var febResult = FillResult(objects, attributes, "FebValue");
+            var marResult = FillResult(objects, attributes, "MarValue");
+            var aprResult = FillResult(objects, attributes, "AprValue");
+            var totalResult = FillResult(objects, attributes, "TotalValue");
+
 
             var resumeForm = new ResumeForm();
             resumeForm.ShowDialog();
+        }
+        
+        private RResult FillResult(List<RObject> objects, List<RAttribute> attributes, string columnName)
+        {
+            var result = new RResult(objects, attributes);
+
+            FillObjectData(result, objects, attributes.First(i => i.Short == "R1"), spentTimeGridView, columnName);
+            FillObjectData(result, objects, attributes.First(i => i.Short == "R2"), spentToEstimateGridView, columnName);
+            FillObjectData(result, objects, attributes.First(i => i.Short == "R3"), onFixGridView, columnName);
+            FillObjectData(result, objects, attributes.First(i => i.Short == "R4"), outOfHoursGridView, columnName);
+            FillObjectData(result, objects, attributes.First(i => i.Short == "R5"), estimateTimeByRevisionGridView, columnName);
+
+            return result;
         }
 
         private void FillObjectData(RResult result, List<RObject> objects, RAttribute attribute, DataGridView dataGridView, string neededColumnName)
@@ -291,7 +307,7 @@ namespace IADP.MoHra.UI
                 var memberName = dataGridView.Rows[i].Cells["MemberName"].Value.ToString();
                 var value = dataGridView.Rows[i].Cells[neededColumnName].Value;
                 var robject = objects.FirstOrDefault(j => j.Name == memberName);
-                if (robject != null)
+                if (robject != null && value != null)
                     result.FillValue(robject, attribute, (decimal)value);
             }
         }

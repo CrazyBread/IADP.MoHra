@@ -102,6 +102,12 @@
     <Compile Include="Model\Result\RAttribute.cs" />
     <Compile Include="Model\Result\RObject.cs" />
     <Compile Include="Model\Result\RResult.cs" />
+    <Compile Include="Model\Resume\AttributeResumer.cs" />
+    <Compile Include="Model\Resume\IMultipleResumer.cs" />
+    <Compile Include="Model\Resume\IResumer.cs" />
+    <Compile Include="Model\Resume\ISingleResumer.cs" />
+    <Compile Include="Model\Resume\LocationResumer.cs" />
+    <Compile Include="Model\Resume\TimeResumer.cs" />
     <Compile Include="Model\Revision.cs">
       <DependentUpon>DB.tt</DependentUpon>
     </Compile>
