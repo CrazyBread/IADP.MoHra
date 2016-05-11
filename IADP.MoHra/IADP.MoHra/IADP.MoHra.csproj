@@ -58,7 +58,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Helpers\ClasterHelper.cs" />
     <Compile Include="Helpers\DatabaseHelper.cs" />
+    <Compile Include="Helpers\ValueEnumeration.cs" />
     <Compile Include="Model\DB.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
