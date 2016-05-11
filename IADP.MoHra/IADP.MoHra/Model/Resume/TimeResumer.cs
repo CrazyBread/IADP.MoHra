@@ -12,14 +12,18 @@ namespace IADP.MoHra.Model.Resume
     /// </summary>
     class TimeResumer : IMultipleResumer
     {
+        private List<KeyValuePair<string, RResult>> _results = new List<KeyValuePair<string, RResult>>();
+
         public string GetResult()
         {
+            if (_results.Count == 0)
+                throw new ArgumentException("Нет результатов");
             throw new NotImplementedException();
         }
 
-        public string AddResult(string name, RResult result)
+        public void AddResult(string name, RResult result)
         {
-            throw new NotImplementedException();
+            _results.Add(new KeyValuePair<string, RResult>(name, result));
         }
     }
 }

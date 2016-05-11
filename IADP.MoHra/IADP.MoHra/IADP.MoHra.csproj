@@ -107,6 +107,7 @@
     <Compile Include="Model\Resume\IResumer.cs" />
     <Compile Include="Model\Resume\ISingleResumer.cs" />
     <Compile Include="Model\Resume\LocationResumer.cs" />
+    <Compile Include="Model\Resume\SingleResumer.cs" />
     <Compile Include="Model\Resume\TimeResumer.cs" />
     <Compile Include="Model\Revision.cs">
       <DependentUpon>DB.tt</DependentUpon>

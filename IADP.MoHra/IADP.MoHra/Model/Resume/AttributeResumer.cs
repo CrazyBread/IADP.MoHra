@@ -10,15 +10,12 @@ namespace IADP.MoHra.Model.Resume
     /// <summary>
     /// Класс, определяющий работу лингвистического резюмирования признаковой классификации.
     /// </summary>
-    class AttributeResumer : ISingleResumer
+    class AttributeResumer : SingleResumer
     {
-        public string GetResult()
+        public override string GetResult()
         {
-            throw new NotImplementedException();
-        }
-
-        public void AddResult(RResult result)
-        {
+            if (_result == null)
+                throw new ArgumentException("Нет результатов");
             throw new NotImplementedException();
         }
     }

@@ -9,6 +9,6 @@ namespace IADP.MoHra.Model.Resume
 {
     interface IMultipleResumer : IResumer
     {
-        string AddResult(string name, RResult result);
+        void AddResult(string name, RResult result);
     }
 }
