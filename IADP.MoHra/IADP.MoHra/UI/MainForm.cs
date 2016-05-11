@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Collections.Generic;
 using IADP.MoHra.Model.Result;
+using IADP.MoHra.Model.Resume;
 
 namespace IADP.MoHra.UI
 {
@@ -272,18 +273,59 @@ namespace IADP.MoHra.UI
                 new RObject() { Name = "Храмков Евгений", RoomNumber = 10 }
             };
 
-
-            var octResult = FillResult(objects, attributes, "OctValue");
-            var novResult = FillResult(objects, attributes, "NovValue");
-            var decResult = FillResult(objects, attributes, "DecValue");
-            var janResult = FillResult(objects, attributes, "JanValue");
-            var febResult = FillResult(objects, attributes, "FebValue");
-            var marResult = FillResult(objects, attributes, "MarValue");
-            var aprResult = FillResult(objects, attributes, "AprValue");
             var totalResult = FillResult(objects, attributes, "TotalValue");
 
+            string resumerResult = "";
 
+            try
+            {
+                var attrResumer = new AttributeResumer();
+                attrResumer.AddResult(totalResult);
+                resumerResult += attrResumer.GetResult();
+            }
+            catch (System.Exception ex)
+            {
+                MessageBox.Show($"Произошла ошибка работы резюматора по признакам: {ex.Message}");
+            }
+
+            try
+            {
+                var octResult = FillResult(objects, attributes, "OctValue");
+                var novResult = FillResult(objects, attributes, "NovValue");
+                var decResult = FillResult(objects, attributes, "DecValue");
+                var janResult = FillResult(objects, attributes, "JanValue");
+                var febResult = FillResult(objects, attributes, "FebValue");
+                var marResult = FillResult(objects, attributes, "MarValue");
+                var aprResult = FillResult(objects, attributes, "AprValue");
+
+                var timeResumer = new TimeResumer();
+                timeResumer.AddResult("Октябрь", octResult);
+                timeResumer.AddResult("Ноябрь", novResult);
+                timeResumer.AddResult("Декабрь", decResult);
+                timeResumer.AddResult("Январь", janResult);
+                timeResumer.AddResult("Февраль", febResult);
+                timeResumer.AddResult("Март", marResult);
+                timeResumer.AddResult("Апрель", aprResult);
+                resumerResult += timeResumer.GetResult();
+            }
+            catch (System.Exception ex)
+            {
+                MessageBox.Show($"Произошла ошибка работы темпорального резюматора: {ex.Message}");
+            }
+
+            try
+            {
+                var locResumer = new LocationResumer();
+                locResumer.AddResult(totalResult);
+                resumerResult += locResumer.GetResult();
+            }
+            catch (System.Exception ex)
+            {
+                MessageBox.Show($"Произошла ошибка работы пространственного резюматора: {ex.Message}");
+            }
+            
             var resumeForm = new ResumeForm();
+            resumeForm.SetResumeText(resumerResult);
             resumeForm.ShowDialog();
         }
         

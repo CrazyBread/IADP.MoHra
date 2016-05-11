@@ -15,7 +15,11 @@ namespace IADP.MoHra.UI
         public ResumeForm()
         {
             InitializeComponent();
-            webBrowser.DocumentText = "<html><body><h1>Тут пока ничего нет</h1><p>Но всё появится.</p></body></html>";
+        }
+
+        public void SetResumeText(string resumerResult)
+        {
+            webBrowser.DocumentText = $"<!DOCTYPE html><html><body>{resumerResult}</body></html>";
         }
     }
 }

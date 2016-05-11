@@ -6,6 +6,12 @@ using System.Threading.Tasks;
 
 namespace IADP.MoHra.Model.Result
 {
+    struct RResultValue
+    {
+        public char Claster { set; get; }
+        public int Points { set; get; }
+    }
+
     class RResult
     {
         public Dictionary<KeyValuePair<RObject, RAttribute>, decimal?> Values;
@@ -33,9 +39,9 @@ namespace IADP.MoHra.Model.Result
             Values[new KeyValuePair<RObject, RAttribute>(robject, rattribute)] = value;
         }
 
-        public Dictionary<RObject, char> GetResult()
+        public Dictionary<RObject, RResultValue> GetResult()
         {
-            var result = new Dictionary<RObject, char>();
+            var result = new Dictionary<RObject, RResultValue>();
             foreach (var robject in _objects)
             {
                 int points = 0;
@@ -52,11 +58,11 @@ namespace IADP.MoHra.Model.Result
                         points += 4;
                 }
                 if (points >= 15)
-                    result[robject] = 'S';
+                    result[robject] = new RResultValue { Claster = 'S', Points = points };
                 else if (points >= 10)
-                    result[robject] = 'M';
+                    result[robject] = new RResultValue { Claster = 'M', Points = points };
                 else
-                    result[robject] = 'J';
+                    result[robject] = new RResultValue { Claster = 'J', Points = points };
             }
             return result;
         }
