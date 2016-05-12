@@ -45,7 +45,7 @@ namespace IADP.MoHra.Model.Resume
                            {
                                Month = pairKey
                                , Claster = g.Key
-                               , A3_Value = Helpers.ValueEnumerationHelper.StdDev(g.Select(i => (double)i.Value))
+                               , A3_Value = g.Select(i => (double)i.Value).Average()
                                , A4_Value = g.Count()
                            };
                 resultList = resultList.Union(list).ToList();
@@ -68,9 +68,9 @@ namespace IADP.MoHra.Model.Resume
                     var beforeItem = pair.Value[item.index];
                     var value = Math.Abs(item.value.A3_Value - beforeItem.A3_Value);
                     var stringValue = "слабая";
-                    if (value < 2)
-                        stringValue = "отсутствует";
-                    else if (value > 4)
+                    if (value < 0.5)
+                        stringValue = "стабильность";
+                    else if (value > 1)
                         stringValue = "сильная";
                     result += $"<td>{stringValue}</td>";
                 }
@@ -97,7 +97,7 @@ namespace IADP.MoHra.Model.Resume
                     var value = Math.Abs(item.value.A4_Value - beforeItem.A4_Value);
                     var stringValue = "слабая";
                     if (value < 1)
-                        stringValue = "отсутствует";
+                        stringValue = "стабильность";
                     else if (value > 2)
                         stringValue = "сильная";
                     result += $"<td>{stringValue}</td>";

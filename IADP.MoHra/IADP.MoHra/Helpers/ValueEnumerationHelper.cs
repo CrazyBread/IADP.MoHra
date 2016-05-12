@@ -8,6 +8,9 @@ namespace IADP.MoHra.Helpers
 {
     static class ValueEnumerationHelper
     {
+        /// <summary>
+        /// Дисперсия.
+        /// </summary>
         // by http://stackoverflow.com/questions/2253874/linq-equivalent-for-standard-deviation
         public static double StdDev(this IEnumerable<double> values)
         {
