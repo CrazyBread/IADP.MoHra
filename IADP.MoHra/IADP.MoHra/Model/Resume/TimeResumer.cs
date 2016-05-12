@@ -66,12 +66,23 @@ namespace IADP.MoHra.Model.Resume
                 foreach (var item in pair.Value.OrderBy(d => d.Month).Skip(1).Select((value, index) => new { index, value }))
                 {
                     var beforeItem = pair.Value[item.index];
-                    var value = Math.Abs(item.value.A3_Value - beforeItem.A3_Value);
-                    var stringValue = "слабая";
-                    if (value < 0.5)
+
+                    var value = item.value.A3_Value - beforeItem.A3_Value;
+                    var absValue = Math.Abs(value);
+
+                    var stringValue = string.Empty;
+
+                    if (absValue < 0.5)
                         stringValue = "стабильность";
-                    else if (value > 1)
-                        stringValue = "сильная";
+                    else if (absValue > 1 && value > 0)
+                        stringValue = "сильный рост";
+                    else if (absValue > 1 && value < 0)
+                        stringValue = "сильное падение";
+                    else if (value > 0)
+                        stringValue = "слабый рост";
+                    else
+                        stringValue = "слабое падение";
+
                     result += $"<td>{stringValue}</td>";
                 }
                 result += "</tr>";
@@ -94,12 +105,23 @@ namespace IADP.MoHra.Model.Resume
                 foreach (var item in pair.Value.OrderBy(d => d.Month).Skip(1).Select((value, index) => new { index, value }))
                 {
                     var beforeItem = pair.Value[item.index];
-                    var value = Math.Abs(item.value.A4_Value - beforeItem.A4_Value);
-                    var stringValue = "слабая";
-                    if (value < 1)
+
+                    var value = item.value.A4_Value - beforeItem.A4_Value;
+                    var absValue = Math.Abs(value);
+
+                    var stringValue = string.Empty;
+
+                    if (absValue < 1)
                         stringValue = "стабильность";
-                    else if (value > 2)
-                        stringValue = "сильная";
+                    else if (absValue > 2 && value > 0)
+                        stringValue = "сильный рост";
+                    else if (absValue > 2 && value < 0)
+                        stringValue = "сильное падение";
+                    else if (value > 0)
+                        stringValue = "слабый рост";
+                    else
+                        stringValue = "слабое падение";
+
                     result += $"<td>{stringValue}</td>";
                 }
                 result += "</tr>";
