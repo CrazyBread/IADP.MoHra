@@ -18,6 +18,7 @@ namespace IADP.MoHra.Model.Resume
             if (_result == null)
                 throw new ArgumentException("Нет результатов");
             var result = "<h1>Резюмирование пространственной кластеризации</h1>";
+            result += "<p><em>Производится оценка комфортности расположения сотрудников по кабинетам в зависимости от их должности. Отношение \"старший\"-\"младший\" должно быть примерно 1:3.</em></p>";
             result += _GetResultForA5();
             return result;
         }

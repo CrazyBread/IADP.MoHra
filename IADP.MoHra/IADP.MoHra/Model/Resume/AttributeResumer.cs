@@ -66,17 +66,18 @@ namespace IADP.MoHra.Model.Resume
             else if (resultValue > 1)
                 result += "<p>По числу элементов кластеры различаются не сильно.</p>";
             else
-                result += "<p>По числу элементов кластеры одинаковы.</p>";
+                result += "<p>По числу элементов кластеры практически одинаковы.</p>";
 
             return result;
         }
 
         private string _GetResultForA2()
         {
-            var result = "<h2>Подробная характеристика кластеров</h2><ul>";
+            var result = "<h2>Подробная характеристика кластеров</h2>";
+            result += "<p><em>Собранность кластера означает, что значения объектов не выходят за пределы удвоенного среднеквадратического отклонения.</em></p>";
             var clastResult = _result.GetResult();
 
-            //throw new NotImplementedException();
+            result += "<ul>";
             var clasters = clastResult.Select(i => i.Value.Claster).Distinct().ToList();
             foreach (var claster in clasters)
             {
@@ -84,7 +85,7 @@ namespace IADP.MoHra.Model.Resume
                 var clastNum = clastResult.Count(i => i.Value.Claster == claster);
 
                 var clastValue = clastResult.Where(i => i.Value.Claster == claster).Select(i => (double)i.Value.Points).ToList().StdDev();
-                var clastValueResult = clastValue <= 3 ? "собранный" : "разрозненный";
+                var clastValueResult = clastValue <= 2 ? "собранный" : "разрозненный";
 
                 result += $"<li><strong>Кластер {clastName}</strong>. Элементов: {clastNum}, {clastValueResult}.</li>";
             }
