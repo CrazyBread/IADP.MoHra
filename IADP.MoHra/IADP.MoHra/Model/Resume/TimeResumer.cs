@@ -12,18 +12,101 @@ namespace IADP.MoHra.Model.Resume
     /// </summary>
     class TimeResumer : IMultipleResumer
     {
-        private List<KeyValuePair<string, RResult>> _results = new List<KeyValuePair<string, RResult>>();
+        private List<KeyValuePair<DateTime, RResult>> _results = new List<KeyValuePair<DateTime, RResult>>();
+        private List<KeyValuePair<char, List<RTemporaryResultValue>>> _temporaryResults;
 
         public string GetResult()
         {
             if (_results.Count == 0)
                 throw new ArgumentException("Нет результатов");
-            throw new NotImplementedException();
+            _FillResults();
+            var result = "<h1>Резюмирование темпоральной кластеризации</h1>";
+            result += _GetResultForA3();
+            result += _GetResultForA4();
+            return result;
         }
 
-        public void AddResult(string name, RResult result)
+        public void AddResult(DateTime month, RResult result)
         {
-            _results.Add(new KeyValuePair<string, RResult>(name, result));
+            _results.Add(new KeyValuePair<DateTime, RResult>(month, result));
+        }
+
+        private void _FillResults()
+        {
+            List<RTemporaryResultValue> resultList = new List<RTemporaryResultValue>();
+            foreach (var pair in _results)
+            {
+                var pairKey = pair.Key;
+
+                var clasterResult = pair.Value.GetResult();
+                var list = from r in clasterResult.Select(d => new { ClasterName = d.Value.Claster, Value = d.Value.Points })
+                           group r by r.ClasterName into g
+                           select new RTemporaryResultValue()
+                           {
+                               Month = pairKey
+                               , Claster = g.Key
+                               , A3_Value = Helpers.ValueEnumerationHelper.StdDev(g.Select(i => (double)i.Value))
+                               , A4_Value = g.Count()
+                           };
+                resultList = resultList.Union(list).ToList();
+            }
+            _temporaryResults = resultList.GroupBy(g => g.Claster).Select(d => new KeyValuePair<char, List<RTemporaryResultValue>>(d.Key, d.ToList())).ToList();
+        }
+
+        private string _GetResultForA3()
+        {
+            string result = "<h2>Уровень разработки в кластере</h2><table border=\"1\"><tr><th>Кластер</th>";
+            foreach (var key in _results.Select(d => d.Key).Distinct().OrderBy(d => d).Skip(1))
+                result += $"<th>{key.ToString("MMMM yyyy")}</th>";
+            result += "</tr>";
+
+            foreach (var pair in _temporaryResults)
+            {
+                result += $"<tr><td>{Helpers.ClasterHelper.GetFullName(pair.Key)}</td>";
+                foreach (var item in pair.Value.OrderBy(d => d.Month).Skip(1).Select((value, index) => new { index, value }))
+                {
+                    var beforeItem = pair.Value[item.index];
+                    var value = Math.Abs(item.value.A3_Value - beforeItem.A3_Value);
+                    var stringValue = "слабая";
+                    if (value < 2)
+                        stringValue = "отсутствует";
+                    else if (value > 4)
+                        stringValue = "сильная";
+                    result += $"<td>{stringValue}</td>";
+                }
+                result += "</tr>";
+            }
+
+            result += "</table>";
+            return result;
+        }
+
+        private string _GetResultForA4()
+        {
+            string result = "<h2>Число разработчиков в кластере</h2><table border=\"1\"><tr><th>Кластер</th>";
+            foreach (var key in _results.Select(d => d.Key).Distinct().OrderBy(d => d).Skip(1))
+                result += $"<th>{key.ToString("MMMM yyyy")}</th>";
+            result += "</tr>";
+
+            foreach (var pair in _temporaryResults)
+            {
+                result += $"<tr><td>{Helpers.ClasterHelper.GetFullName(pair.Key)}</td>";
+                foreach (var item in pair.Value.OrderBy(d => d.Month).Skip(1).Select((value, index) => new { index, value }))
+                {
+                    var beforeItem = pair.Value[item.index];
+                    var value = Math.Abs(item.value.A4_Value - beforeItem.A4_Value);
+                    var stringValue = "слабая";
+                    if (value < 1)
+                        stringValue = "отсутствует";
+                    else if (value > 2)
+                        stringValue = "сильная";
+                    result += $"<td>{stringValue}</td>";
+                }
+                result += "</tr>";
+            }
+
+            result += "</table>";
+            return result;
         }
     }
 }

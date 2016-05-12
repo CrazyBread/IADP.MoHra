@@ -299,13 +299,14 @@ namespace IADP.MoHra.UI
                 var aprResult = FillResult(objects, attributes, "AprValue");
 
                 var timeResumer = new TimeResumer();
-                timeResumer.AddResult("Октябрь", octResult);
-                timeResumer.AddResult("Ноябрь", novResult);
-                timeResumer.AddResult("Декабрь", decResult);
-                timeResumer.AddResult("Январь", janResult);
-                timeResumer.AddResult("Февраль", febResult);
-                timeResumer.AddResult("Март", marResult);
-                timeResumer.AddResult("Апрель", aprResult);
+                var startDate = new System.DateTime(2015, 10, 1);
+                timeResumer.AddResult(startDate, octResult);
+                timeResumer.AddResult(startDate.AddMonths(1), novResult);
+                timeResumer.AddResult(startDate.AddMonths(2), decResult);
+                timeResumer.AddResult(startDate.AddMonths(3), janResult);
+                timeResumer.AddResult(startDate.AddMonths(4), febResult);
+                timeResumer.AddResult(startDate.AddMonths(5), marResult);
+                timeResumer.AddResult(startDate.AddMonths(6), aprResult);
                 resumerResult += timeResumer.GetResult();
             }
             catch (System.Exception ex)
