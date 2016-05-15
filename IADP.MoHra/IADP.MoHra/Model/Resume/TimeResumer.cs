@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using IADP.MoHra.Model.Fuzzy;
 using IADP.MoHra.Model.Result;
 
 namespace IADP.MoHra.Model.Resume
@@ -60,6 +61,13 @@ namespace IADP.MoHra.Model.Resume
                 result += $"<th>{key.ToString("MMMM yyyy")}</th>";
             result += "</tr>";
 
+            var scale = new FuzzyScale();
+            scale.AddItem(new FuzzyScaleBorderItem() { Name = "P31", Begin = -0.5m, Top = -1.5m });
+            scale.AddItem(new FuzzyScaleTriangleItem() { Name = "P32", Begin = -0.25m, Top = -0.75m, End = -1.25m });
+            scale.AddItem(new FuzzyScaleTriangleItem() { Name = "P33", Begin = -1.0m, Top = 0, End = 1.0m });
+            scale.AddItem(new FuzzyScaleTriangleItem() { Name = "P34", Begin = 0.25m, Top = 0.75m, End = 1.25m });
+            scale.AddItem(new FuzzyScaleBorderItem() { Name = "P35", Begin = 0.5m, Top = 1.5m });
+            
             foreach (var pair in _temporaryResults)
             {
                 result += $"<tr><td>{Helpers.ClasterHelper.GetFullName(pair.Key)}</td>";
@@ -72,16 +80,19 @@ namespace IADP.MoHra.Model.Resume
 
                     var stringValue = string.Empty;
 
-                    if (absValue < 0.5)
+                    var scaleValue = scale.GetAccessory((decimal)value);
+
+                    if (scaleValue.Name == "P33")
                         stringValue = "стабильность";
-                    else if (absValue > 1 && value > 0)
+                    else if (scaleValue.Name == "P35")
                         stringValue = "сильный рост";
-                    else if (absValue > 1 && value < 0)
+                    else if (scaleValue.Name == "P31")
                         stringValue = "сильное падение";
-                    else if (value > 0)
+                    else if (scaleValue.Name == "P34")
                         stringValue = "слабый рост";
-                    else
+                    else if (scaleValue.Name == "P32")
                         stringValue = "слабое падение";
+                    else throw new ArgumentException();
 
                     result += $"<td>{stringValue}</td>";
                 }
@@ -99,6 +110,13 @@ namespace IADP.MoHra.Model.Resume
                 result += $"<th>{key.ToString("MMMM yyyy")}</th>";
             result += "</tr>";
 
+            var scale = new FuzzyScale();
+            scale.AddItem(new FuzzyScaleBorderItem() { Name = "P41", Begin = -1.5m, Top = -2.5m });
+            scale.AddItem(new FuzzyScaleTriangleItem() { Name = "P42", Begin = -0.5m, Top = -1, End = -1.5m });
+            scale.AddItem(new FuzzyScaleTriangleItem() { Name = "P43", Begin = -2.0m, Top = 0, End = 2.0m });
+            scale.AddItem(new FuzzyScaleTriangleItem() { Name = "P44", Begin = 0.5m, Top = 1, End = 1.5m });
+            scale.AddItem(new FuzzyScaleBorderItem() { Name = "P45", Begin = 1.5m, Top = 2.5m });
+
             foreach (var pair in _temporaryResults)
             {
                 result += $"<tr><td>{Helpers.ClasterHelper.GetFullName(pair.Key)}</td>";
@@ -111,16 +129,19 @@ namespace IADP.MoHra.Model.Resume
 
                     var stringValue = string.Empty;
 
-                    if (absValue < 1)
+                    var scaleValue = scale.GetAccessory((decimal)value);
+
+                    if (scaleValue.Name == "P43")
                         stringValue = "стабильность";
-                    else if (absValue > 2 && value > 0)
+                    else if (scaleValue.Name == "P45")
                         stringValue = "сильный рост";
-                    else if (absValue > 2 && value < 0)
+                    else if (scaleValue.Name == "P41")
                         stringValue = "сильное падение";
-                    else if (value > 0)
+                    else if (scaleValue.Name == "P44")
                         stringValue = "слабый рост";
-                    else
+                    else if (scaleValue.Name == "P42")
                         stringValue = "слабое падение";
+                    else throw new ArgumentException();
 
                     result += $"<td>{stringValue}</td>";
                 }

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using IADP.MoHra.Helpers;
+using IADP.MoHra.Model.Fuzzy;
 using IADP.MoHra.Model.Result;
 
 namespace IADP.MoHra.Model.Resume
@@ -61,12 +62,19 @@ namespace IADP.MoHra.Model.Resume
             var objectsInClasters = clastResult.Select(i => i.Value.Claster).GroupBy(i => i, (i, j) => (double)j.Count()).ToList();
             double resultValue = objectsInClasters.StdDev();
 
-            if (resultValue > 3)
+            var scale = new FuzzyScale();
+            scale.AddItem(new FuzzyScaleBorderItem() { Name = "P11", Begin = 2, Top = 1 });
+            scale.AddItem(new FuzzyScaleTriangleItem() { Name = "P12", Begin = 1, Top = 2, End = 3 });
+            scale.AddItem(new FuzzyScaleBorderItem() { Name = "P13", Begin = 2, Top = 3 });
+            var scaleValue = scale.GetAccessory((decimal)resultValue);
+
+            if (scaleValue.Name == "P13")
                 result += "<p>По числу элементов кластеры отличаются сильно.</p>";
-            else if (resultValue > 1)
+            else if (scaleValue.Name == "P12")
                 result += "<p>По числу элементов кластеры различаются не сильно.</p>";
-            else
+            else if (scaleValue.Name == "P11")
                 result += "<p>По числу элементов кластеры практически одинаковы.</p>";
+            else throw new ArgumentException();
 
             return result;
         }
@@ -77,6 +85,10 @@ namespace IADP.MoHra.Model.Resume
             result += "<p><em>Собранность кластера означает, что значения объектов не выходят за пределы удвоенного среднеквадратического отклонения.</em></p>";
             var clastResult = _result.GetResult();
 
+            var scale = new FuzzyScale();
+            scale.AddItem(new FuzzyScaleBorderItem() { Name = "P21", Begin = 3, Top = 1 });
+            scale.AddItem(new FuzzyScaleBorderItem() { Name = "P22", Begin = 1, Top = 3 });
+            
             result += "<ul>";
             var clasters = clastResult.Select(i => i.Value.Claster).Distinct().ToList();
             foreach (var claster in clasters)
@@ -85,7 +97,9 @@ namespace IADP.MoHra.Model.Resume
                 var clastNum = clastResult.Count(i => i.Value.Claster == claster);
 
                 var clastValue = clastResult.Where(i => i.Value.Claster == claster).Select(i => (double)i.Value.Points).ToList().StdDev();
-                var clastValueResult = clastValue <= 2 ? "собранный" : "разрозненный";
+                var scaleValue = scale.GetAccessory((decimal)clastValue);
+
+                var clastValueResult = (scaleValue.Name == "P21") ? "собранный" : "разрозненный";
 
                 result += $"<li><strong>Кластер {clastName}</strong>. Элементов: {clastNum}, {clastValueResult}.</li>";
             }

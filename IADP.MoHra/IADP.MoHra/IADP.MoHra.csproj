@@ -76,6 +76,9 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>DB.edmx</DependentUpon>
     </Compile>
+    <Compile Include="Model\Fuzzy\FuzzyAccessoryResult.cs" />
+    <Compile Include="Model\Fuzzy\FuzzyScaleBorderItem.cs" />
+    <Compile Include="Model\Fuzzy\IFuzzyScaleItem.cs" />
     <Compile Include="Model\Issue.cs">
       <DependentUpon>DB.tt</DependentUpon>
     </Compile>
@@ -105,6 +108,8 @@
     <Compile Include="Model\Result\RObject.cs" />
     <Compile Include="Model\Result\RResult.cs" />
     <Compile Include="Model\Resume\AttributeResumer.cs" />
+    <Compile Include="Model\Fuzzy\FuzzyScale.cs" />
+    <Compile Include="Model\Fuzzy\FuzzyScaleTriangleItem.cs" />
     <Compile Include="Model\Resume\IMultipleResumer.cs" />
     <Compile Include="Model\Resume\IResumer.cs" />
     <Compile Include="Model\Resume\ISingleResumer.cs" />

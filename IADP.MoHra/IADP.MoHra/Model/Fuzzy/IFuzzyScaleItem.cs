@@ -9,6 +9,6 @@ namespace IADP.MoHra.Model.Fuzzy
     interface IFuzzyScaleItem
     {
         string Name { set; get; }
-        decimal AccessoryValue(decimal value);
+        decimal GetAccessory(decimal value);
     }
 }

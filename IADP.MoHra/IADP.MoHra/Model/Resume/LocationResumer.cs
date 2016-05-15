@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using IADP.MoHra.Helpers;
+using IADP.MoHra.Model.Fuzzy;
 using IADP.MoHra.Model.Result;
 
 namespace IADP.MoHra.Model.Resume
@@ -28,6 +29,12 @@ namespace IADP.MoHra.Model.Resume
             var result = "<ul>";
             var clastResult = _result.GetResult();
 
+            var scale = new FuzzyScale();
+            scale.AddItem(new FuzzyScaleBorderItem() { Name = "P51", Begin = 0.5m, Top = -0.5m });
+            scale.AddItem(new FuzzyScaleTriangleItem() { Name = "P52", Begin = -0.5m, Top = 0.5m, End = 1.5m });
+            scale.AddItem(new FuzzyScaleTriangleItem() { Name = "P53", Begin = 0.5m, Top = 1.5m, End = 2.5m });
+            scale.AddItem(new FuzzyScaleBorderItem() { Name = "P54", Begin = 1.5m, Top = 3.5m });
+
             var rooms = clastResult.Select(i => i.Key.RoomNumber).Distinct().OrderBy(i => i).ToList();
             foreach (var room in rooms)
             {
@@ -41,14 +48,18 @@ namespace IADP.MoHra.Model.Resume
 
                 var roomValue = smCount + sjCount + mjCount;
                 var roomValueResult = "";
-                if (roomValue > 3)
+
+                var scaleValue = scale.GetAccessory((decimal)roomValue);
+
+                if (scaleValue.Name == "P54")
                     roomValueResult = "крайне комфортная";
-                else if (roomValue > 1)
+                else if (scaleValue.Name == "P53")
                     roomValueResult = "комфортная";
-                else if (roomValue > 0)
+                else if (scaleValue.Name == "P52")
                     roomValueResult = "не комфортная";
-                else
+                else if (scaleValue.Name == "P51")
                     roomValueResult = "крайне не комфортная";
+                else throw new ArgumentException();
 
                 result += $"<li><strong>Комната {room}</strong>. Заполненность кабинета: {roomValueResult}.</li>";
             }
