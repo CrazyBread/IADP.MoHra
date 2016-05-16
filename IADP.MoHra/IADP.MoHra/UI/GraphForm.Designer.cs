@@ -129,7 +129,7 @@
             // 
             // graphA4Panel
             // 
-            this.graphA4Panel.Location = new System.Drawing.Point(6, 5);
+            this.graphA4Panel.Location = new System.Drawing.Point(6, 6);
             this.graphA4Panel.Name = "graphA4Panel";
             this.graphA4Panel.Size = new System.Drawing.Size(700, 220);
             this.graphA4Panel.TabIndex = 1;

@@ -33,6 +33,20 @@ namespace IADP.MoHra.Model.Fuzzy
         {
             foreach (var scaleItem in _items)
                 scaleItem.Draw(graphics);
+
+            var minX = _items.Min(d => 
+                                    (d is FuzzyScaleTriangleItem) ? 
+                                    ((d as FuzzyScaleTriangleItem).Begin < (d as FuzzyScaleTriangleItem).Top ? (d as FuzzyScaleTriangleItem).Begin : (d as FuzzyScaleTriangleItem).Top) : 
+                                    ((d as FuzzyScaleBorderItem).Begin < (d as FuzzyScaleBorderItem).Top ? (d as FuzzyScaleBorderItem).Begin : (d as FuzzyScaleBorderItem).Top)
+                                ) * Helpers.GraphSettings.scale;
+            graphics.DrawLine(System.Drawing.Pens.Black, new System.Drawing.PointF(0, Helpers.GraphSettings.center_Y - Helpers.GraphSettings.scale), new System.Drawing.PointF((float)minX + Helpers.GraphSettings.center_X, Helpers.GraphSettings.center_Y - Helpers.GraphSettings.scale));
+
+            var maxX = _items.Max(d =>
+                                    (d is FuzzyScaleTriangleItem) ?
+                                    ((d as FuzzyScaleTriangleItem).Top > (d as FuzzyScaleTriangleItem).End ? (d as FuzzyScaleTriangleItem).Top : (d as FuzzyScaleTriangleItem).End) :
+                                    ((d as FuzzyScaleBorderItem).Begin > (d as FuzzyScaleBorderItem).Top ? (d as FuzzyScaleBorderItem).Begin : (d as FuzzyScaleBorderItem).Top)
+                                ) * Helpers.GraphSettings.scale;
+            graphics.DrawLine(System.Drawing.Pens.Black, new System.Drawing.PointF(Helpers.GraphSettings.center_X + (float)maxX, Helpers.GraphSettings.center_Y - Helpers.GraphSettings.scale), new System.Drawing.PointF(Helpers.GraphSettings.center_X * 2, Helpers.GraphSettings.center_Y - Helpers.GraphSettings.scale));
         }
     }
 }
