@@ -61,12 +61,7 @@ namespace IADP.MoHra.Model.Resume
                 result += $"<th>{key.ToString("MMMM yyyy")}</th>";
             result += "</tr>";
 
-            var scale = new FuzzyScale();
-            scale.AddItem(new FuzzyScaleBorderItem() { Name = "P31", Begin = -0.5m, Top = -1.5m });
-            scale.AddItem(new FuzzyScaleTriangleItem() { Name = "P32", Begin = -0.25m, Top = -0.75m, End = -1.25m });
-            scale.AddItem(new FuzzyScaleTriangleItem() { Name = "P33", Begin = -1.0m, Top = 0, End = 1.0m });
-            scale.AddItem(new FuzzyScaleTriangleItem() { Name = "P34", Begin = 0.25m, Top = 0.75m, End = 1.25m });
-            scale.AddItem(new FuzzyScaleBorderItem() { Name = "P35", Begin = 0.5m, Top = 1.5m });
+            var scale = FuzzyScaleRepository.ForA3();
             
             foreach (var pair in _temporaryResults)
             {
@@ -110,12 +105,7 @@ namespace IADP.MoHra.Model.Resume
                 result += $"<th>{key.ToString("MMMM yyyy")}</th>";
             result += "</tr>";
 
-            var scale = new FuzzyScale();
-            scale.AddItem(new FuzzyScaleBorderItem() { Name = "P41", Begin = -1.5m, Top = -2.5m });
-            scale.AddItem(new FuzzyScaleTriangleItem() { Name = "P42", Begin = -0.5m, Top = -1, End = -1.5m });
-            scale.AddItem(new FuzzyScaleTriangleItem() { Name = "P43", Begin = -2.0m, Top = 0, End = 2.0m });
-            scale.AddItem(new FuzzyScaleTriangleItem() { Name = "P44", Begin = 0.5m, Top = 1, End = 1.5m });
-            scale.AddItem(new FuzzyScaleBorderItem() { Name = "P45", Begin = 1.5m, Top = 2.5m });
+            var scale = FuzzyScaleRepository.ForA4();
 
             foreach (var pair in _temporaryResults)
             {

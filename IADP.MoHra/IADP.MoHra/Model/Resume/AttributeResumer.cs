@@ -62,10 +62,7 @@ namespace IADP.MoHra.Model.Resume
             var objectsInClasters = clastResult.Select(i => i.Value.Claster).GroupBy(i => i, (i, j) => (double)j.Count()).ToList();
             double resultValue = objectsInClasters.StdDev();
 
-            var scale = new FuzzyScale();
-            scale.AddItem(new FuzzyScaleBorderItem() { Name = "P11", Begin = 2, Top = 1 });
-            scale.AddItem(new FuzzyScaleTriangleItem() { Name = "P12", Begin = 1, Top = 2, End = 3 });
-            scale.AddItem(new FuzzyScaleBorderItem() { Name = "P13", Begin = 2, Top = 3 });
+            var scale = FuzzyScaleRepository.ForA1();
             var scaleValue = scale.GetAccessory((decimal)resultValue);
 
             if (scaleValue.Name == "P13")
@@ -85,10 +82,8 @@ namespace IADP.MoHra.Model.Resume
             result += "<p><em>Собранность кластера означает, что значения объектов не выходят за пределы удвоенного среднеквадратического отклонения.</em></p>";
             var clastResult = _result.GetResult();
 
-            var scale = new FuzzyScale();
-            scale.AddItem(new FuzzyScaleBorderItem() { Name = "P21", Begin = 3, Top = 1 });
-            scale.AddItem(new FuzzyScaleBorderItem() { Name = "P22", Begin = 1, Top = 3 });
-            
+            var scale = FuzzyScaleRepository.ForA2();
+
             result += "<ul>";
             var clasters = clastResult.Select(i => i.Value.Claster).Distinct().ToList();
             foreach (var claster in clasters)
