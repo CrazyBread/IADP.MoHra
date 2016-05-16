@@ -10,5 +10,6 @@ namespace IADP.MoHra.Model.Fuzzy
     {
         string Name { set; get; }
         decimal GetAccessory(decimal value);
+        void Draw(System.Windows.Forms.Control control);
     }
 }

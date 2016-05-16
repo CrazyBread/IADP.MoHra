@@ -354,5 +354,11 @@ namespace IADP.MoHra.UI
                     result.FillValue(robject, attribute, (decimal)value);
             }
         }
+
+        private void graphToolStripMenuItem_Click(object sender, System.EventArgs e)
+        {
+            var graphForm = new GraphForm();
+            graphForm.ShowDialog();
+        }
     }
 }

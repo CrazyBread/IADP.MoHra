@@ -27,6 +27,22 @@ namespace IADP.MoHra.Model.Fuzzy
             return result;
         }
 
+        public void Draw(System.Windows.Forms.Control control)
+        {
+            using (var graphics = control.CreateGraphics())
+            {
+                Random rnd = new Random();
+                var rndColor = System.Drawing.Color.FromArgb(rnd.Next(256), rnd.Next(256), rnd.Next(256));
+                var pen = new System.Drawing.Pen(rndColor);
+                graphics.DrawLines(pen, new[]
+                {
+                    new System.Drawing.PointF((float)Begin * 100, 0)
+                    , new System.Drawing.PointF((float)Top * 100, 100)
+                    , new System.Drawing.PointF((float)End * 100, 0)
+                });
+            }
+        }
+
         private void _Check()
         {
             if (Begin >= End)
