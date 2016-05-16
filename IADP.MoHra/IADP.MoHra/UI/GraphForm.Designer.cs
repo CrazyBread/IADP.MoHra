@@ -51,7 +51,7 @@
             // 
             this.graphA1Panel.Location = new System.Drawing.Point(6, 6);
             this.graphA1Panel.Name = "graphA1Panel";
-            this.graphA1Panel.Size = new System.Drawing.Size(700, 220);
+            this.graphA1Panel.Size = new System.Drawing.Size(1400, 420);
             this.graphA1Panel.TabIndex = 0;
             this.graphA1Panel.Paint += new System.Windows.Forms.PaintEventHandler(this.graphA1Panel_Paint);
             // 
@@ -66,7 +66,7 @@
             this.graphTabs.Name = "graphTabs";
             this.graphTabs.Padding = new System.Drawing.Point(6, 6);
             this.graphTabs.SelectedIndex = 0;
-            this.graphTabs.Size = new System.Drawing.Size(720, 258);
+            this.graphTabs.Size = new System.Drawing.Size(1420, 463);
             this.graphTabs.TabIndex = 1;
             // 
             // tabA1
@@ -75,7 +75,7 @@
             this.tabA1.Location = new System.Drawing.Point(4, 28);
             this.tabA1.Name = "tabA1";
             this.tabA1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabA1.Size = new System.Drawing.Size(712, 226);
+            this.tabA1.Size = new System.Drawing.Size(1410, 584);
             this.tabA1.TabIndex = 0;
             this.tabA1.Text = "A1";
             this.tabA1.UseVisualStyleBackColor = true;
@@ -86,7 +86,7 @@
             this.tabA2.Location = new System.Drawing.Point(4, 28);
             this.tabA2.Name = "tabA2";
             this.tabA2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabA2.Size = new System.Drawing.Size(712, 226);
+            this.tabA2.Size = new System.Drawing.Size(1410, 584);
             this.tabA2.TabIndex = 1;
             this.tabA2.Text = "A2";
             this.tabA2.UseVisualStyleBackColor = true;
@@ -95,7 +95,7 @@
             // 
             this.graphA2Panel.Location = new System.Drawing.Point(6, 6);
             this.graphA2Panel.Name = "graphA2Panel";
-            this.graphA2Panel.Size = new System.Drawing.Size(700, 220);
+            this.graphA2Panel.Size = new System.Drawing.Size(1400, 420);
             this.graphA2Panel.TabIndex = 1;
             this.graphA2Panel.Paint += new System.Windows.Forms.PaintEventHandler(this.graphA2Panel_Paint);
             // 
@@ -104,7 +104,7 @@
             this.tabA3.Controls.Add(this.graphA3Panel);
             this.tabA3.Location = new System.Drawing.Point(4, 28);
             this.tabA3.Name = "tabA3";
-            this.tabA3.Size = new System.Drawing.Size(712, 226);
+            this.tabA3.Size = new System.Drawing.Size(1410, 584);
             this.tabA3.TabIndex = 2;
             this.tabA3.Text = "A3";
             this.tabA3.UseVisualStyleBackColor = true;
@@ -113,7 +113,7 @@
             // 
             this.graphA3Panel.Location = new System.Drawing.Point(6, 6);
             this.graphA3Panel.Name = "graphA3Panel";
-            this.graphA3Panel.Size = new System.Drawing.Size(700, 220);
+            this.graphA3Panel.Size = new System.Drawing.Size(1400, 420);
             this.graphA3Panel.TabIndex = 1;
             this.graphA3Panel.Paint += new System.Windows.Forms.PaintEventHandler(this.graphA3Panel_Paint);
             // 
@@ -122,7 +122,7 @@
             this.tabA4.Controls.Add(this.graphA4Panel);
             this.tabA4.Location = new System.Drawing.Point(4, 28);
             this.tabA4.Name = "tabA4";
-            this.tabA4.Size = new System.Drawing.Size(712, 226);
+            this.tabA4.Size = new System.Drawing.Size(1410, 584);
             this.tabA4.TabIndex = 3;
             this.tabA4.Text = "A4";
             this.tabA4.UseVisualStyleBackColor = true;
@@ -131,7 +131,7 @@
             // 
             this.graphA4Panel.Location = new System.Drawing.Point(6, 6);
             this.graphA4Panel.Name = "graphA4Panel";
-            this.graphA4Panel.Size = new System.Drawing.Size(700, 220);
+            this.graphA4Panel.Size = new System.Drawing.Size(1400, 420);
             this.graphA4Panel.TabIndex = 1;
             this.graphA4Panel.Paint += new System.Windows.Forms.PaintEventHandler(this.graphA4Panel_Paint);
             // 
@@ -140,7 +140,7 @@
             this.tabA5.Controls.Add(this.graphA5Panel);
             this.tabA5.Location = new System.Drawing.Point(4, 28);
             this.tabA5.Name = "tabA5";
-            this.tabA5.Size = new System.Drawing.Size(712, 226);
+            this.tabA5.Size = new System.Drawing.Size(1412, 431);
             this.tabA5.TabIndex = 4;
             this.tabA5.Text = "A5";
             this.tabA5.UseVisualStyleBackColor = true;
@@ -149,7 +149,7 @@
             // 
             this.graphA5Panel.Location = new System.Drawing.Point(6, 5);
             this.graphA5Panel.Name = "graphA5Panel";
-            this.graphA5Panel.Size = new System.Drawing.Size(700, 220);
+            this.graphA5Panel.Size = new System.Drawing.Size(1400, 420);
             this.graphA5Panel.TabIndex = 1;
             this.graphA5Panel.Paint += new System.Windows.Forms.PaintEventHandler(this.graphA5Panel_Paint);
             // 
@@ -157,7 +157,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(743, 283);
+            this.ClientSize = new System.Drawing.Size(1443, 632);
             this.Controls.Add(this.graphTabs);
             this.Name = "GraphForm";
             this.Text = "Графики функций принадлежности";
