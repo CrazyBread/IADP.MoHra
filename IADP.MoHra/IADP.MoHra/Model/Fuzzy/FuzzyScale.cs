@@ -29,10 +29,10 @@ namespace IADP.MoHra.Model.Fuzzy
             return result;
         }
 
-        public void Draw(System.Windows.Forms.Control control)
+        public void Draw(System.Drawing.Graphics graphics)
         {
             foreach (var scaleItem in _items)
-                scaleItem.Draw(control);
+                scaleItem.Draw(graphics);
         }
     }
 }
