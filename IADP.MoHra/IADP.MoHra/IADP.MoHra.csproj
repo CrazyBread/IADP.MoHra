@@ -78,6 +78,7 @@
     </Compile>
     <Compile Include="Model\Fuzzy\FuzzyAccessoryResult.cs" />
     <Compile Include="Model\Fuzzy\FuzzyScaleBorderItem.cs" />
+    <Compile Include="Model\Fuzzy\FuzzyScaleRepository.cs" />
     <Compile Include="Model\Fuzzy\IFuzzyScaleItem.cs" />
     <Compile Include="Model\Issue.cs">
       <DependentUpon>DB.tt</DependentUpon>
