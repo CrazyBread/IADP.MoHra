@@ -45,8 +45,8 @@ namespace IADP.MoHra.Model.Fuzzy
         {
             graphics.DrawLines(System.Drawing.Pens.Black, new[] 
             {
-                new System.Drawing.PointF((float)Begin * 100 + 10, 300)
-                , new System.Drawing.PointF((float)Top * 100 + 10, 200)
+                new System.Drawing.PointF((float)Begin * Helpers.GraphSettings.scale + Helpers.GraphSettings.center_X, Helpers.GraphSettings.center_Y)
+                , new System.Drawing.PointF((float)Top * Helpers.GraphSettings.scale + Helpers.GraphSettings.center_X, Helpers.GraphSettings.center_Y - Helpers.GraphSettings.scale)
             });
         }
 

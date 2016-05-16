@@ -21,13 +21,13 @@ namespace IADP.MoHra.UI
         private void DrawGraph(FuzzyScale scale, Graphics graphics)
         {
             // Axis X
-            graphics.DrawLine(Pens.Black, new Point(0, 300), new Point(500, 300));
-            graphics.DrawLine(Pens.Black, new Point(500, 300), new Point(490, 298));
-            graphics.DrawLine(Pens.Black, new Point(500, 300), new Point(490, 302));
+            graphics.DrawLine(Pens.Black, new Point(0, Helpers.GraphSettings.center_Y), new Point(Helpers.GraphSettings.center_X * 2, Helpers.GraphSettings.center_Y));
+            graphics.DrawLine(Pens.Black, new Point(Helpers.GraphSettings.center_X * 2, Helpers.GraphSettings.center_Y), new Point(Helpers.GraphSettings.center_X * 2 - 10, Helpers.GraphSettings.center_Y - 2));
+            graphics.DrawLine(Pens.Black, new Point(Helpers.GraphSettings.center_X * 2, Helpers.GraphSettings.center_Y), new Point(Helpers.GraphSettings.center_X * 2 - 10, Helpers.GraphSettings.center_Y + 2));
             // Axis Y
-            graphics.DrawLine(Pens.Black, new Point(10, 310), new Point(10, 10));
-            graphics.DrawLine(Pens.Black, new Point(10, 10), new Point(8, 20));
-            graphics.DrawLine(Pens.Black, new Point(10, 10), new Point(12, 20));
+            graphics.DrawLine(Pens.Black, new Point(Helpers.GraphSettings.center_X, Helpers.GraphSettings.center_Y + 10), new Point(Helpers.GraphSettings.center_X, 0));
+            graphics.DrawLine(Pens.Black, new Point(Helpers.GraphSettings.center_X, 0), new Point(Helpers.GraphSettings.center_X - 2, 10));
+            graphics.DrawLine(Pens.Black, new Point(Helpers.GraphSettings.center_X, 0), new Point(Helpers.GraphSettings.center_X + 2, 10));
 
             scale.Draw(graphics);
         }
