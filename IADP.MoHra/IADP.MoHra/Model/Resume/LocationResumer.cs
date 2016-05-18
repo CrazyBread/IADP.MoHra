@@ -57,7 +57,7 @@ namespace IADP.MoHra.Model.Resume
                     roomValueResult = "крайне не комфортная";
                 else throw new ArgumentException();
 
-                result += $"<li><strong>Комната {room}</strong>. Заполненность кабинета: {roomValueResult}.</li>";
+                result += $"<li><strong>Комната {room}</strong>. Заполненность кабинета: {roomValueResult} (степень истинности: {scaleValue.Value:0.00}).</li>";
             }
 
             result += "</ul>";

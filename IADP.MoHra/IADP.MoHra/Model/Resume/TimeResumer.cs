@@ -89,7 +89,7 @@ namespace IADP.MoHra.Model.Resume
                         stringValue = "слабое падение";
                     else throw new ArgumentException();
 
-                    result += $"<td>{stringValue}</td>";
+                    result += $"<td>{stringValue}<br/><small>(с.и.: {scaleValue.Value:0.00})</small></td>";
                 }
                 result += "</tr>";
             }
@@ -133,7 +133,7 @@ namespace IADP.MoHra.Model.Resume
                         stringValue = "слабое падение";
                     else throw new ArgumentException();
 
-                    result += $"<td>{stringValue}</td>";
+                    result += $"<td>{stringValue}<br/><small>(с.и.: {scaleValue.Value:0.00})</small></td>";
                 }
                 result += "</tr>";
             }

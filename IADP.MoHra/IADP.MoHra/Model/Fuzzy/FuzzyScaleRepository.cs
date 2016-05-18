@@ -29,7 +29,7 @@ namespace IADP.MoHra.Model.Fuzzy
         {
             var scale = new FuzzyScale();
             scale.AddItem(new FuzzyScaleBorderItem() { Name = "P31", Begin = -1.0m, Top = -1.75m });
-            scale.AddItem(new FuzzyScaleTriangleItem() { Name = "P32", Begin = 0m, Top = -1.0m, End = -1.75m });
+            scale.AddItem(new FuzzyScaleTriangleItem() { Name = "P32", Begin = -1.75m, Top = -1.0m, End = 0m });
             scale.AddItem(new FuzzyScaleTriangleItem() { Name = "P33", Begin = -1.0m, Top = 0, End = 1.0m });
             scale.AddItem(new FuzzyScaleTriangleItem() { Name = "P34", Begin = 0m, Top = 1.0m, End = 1.75m });
             scale.AddItem(new FuzzyScaleBorderItem() { Name = "P35", Begin = 1.0m, Top = 1.75m });
@@ -40,7 +40,7 @@ namespace IADP.MoHra.Model.Fuzzy
         {
             var scale = new FuzzyScale();
             scale.AddItem(new FuzzyScaleBorderItem() { Name = "P41", Begin = -1.5m, Top = -2.5m });
-            scale.AddItem(new FuzzyScaleTriangleItem() { Name = "P42", Begin = 0m, Top = -1.5m, End = -2.5m });
+            scale.AddItem(new FuzzyScaleTriangleItem() { Name = "P42", Begin = -2.5m, Top = -1.5m, End = 0m });
             scale.AddItem(new FuzzyScaleTriangleItem() { Name = "P43", Begin = -1.5m, Top = 0, End = 1.5m });
             scale.AddItem(new FuzzyScaleTriangleItem() { Name = "P44", Begin = 0m, Top = 1.5m, End = 2.5m });
             scale.AddItem(new FuzzyScaleBorderItem() { Name = "P45", Begin = 1.5m, Top = 2.5m });
