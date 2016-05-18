@@ -22,6 +22,7 @@ namespace IADP.MoHra.Model.Resume
                 throw new ArgumentException("Нет результатов");
             _FillResults();
             var result = "<h1>Резюмирование темпоральной кластеризации</h1>";
+            result += "<p><em>\"С.и.\" в таблице обозначает \"степень истинности\".</em></p>";
             result += _GetResultForA3();
             result += _GetResultForA4();
             return result;

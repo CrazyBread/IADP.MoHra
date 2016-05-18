@@ -66,11 +66,11 @@ namespace IADP.MoHra.Model.Resume
             var scaleValue = scale.GetAccessory((decimal)resultValue);
 
             if (scaleValue.Name == "P13")
-                result += $"<p>По числу элементов кластеры отличаются сильно (степень истиности {scaleValue.Value:0.00}).</p>";
+                result += $"<p>По числу элементов кластеры отличаются сильно (степень истинности {scaleValue.Value:0.00}).</p>";
             else if (scaleValue.Name == "P12")
-                result += $"<p>По числу элементов кластеры различаются не сильно (степень истиности {scaleValue.Value:0.00}).</p>";
+                result += $"<p>По числу элементов кластеры различаются не сильно (степень истинности {scaleValue.Value:0.00}).</p>";
             else if (scaleValue.Name == "P11")
-                result += $"<p>По числу элементов кластеры практически одинаковы (степень истиности {scaleValue.Value:0.00}).</p>";
+                result += $"<p>По числу элементов кластеры практически одинаковы (степень истинности {scaleValue.Value:0.00}).</p>";
             else throw new ArgumentException();
 
             return result;
@@ -96,7 +96,7 @@ namespace IADP.MoHra.Model.Resume
 
                 var clastValueResult = (scaleValue.Name == "P21") ? "собранный" : "разрозненный";
 
-                result += $"<li><strong>Кластер {clastName}</strong>. Элементов: {clastNum}, {clastValueResult} (степень истиности {scaleValue.Value:0.00}).</li>";
+                result += $"<li><strong>Кластер {clastName}</strong>. Элементов: {clastNum}, {clastValueResult} (степень истинности {scaleValue.Value:0.00}).</li>";
             }
 
             result += "</ul>";
