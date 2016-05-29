@@ -30,5 +30,12 @@ namespace IADP.MoHra.Model.Classification
             }
             return result;
         }
+
+        public static CObject GetFromProperties(CClass @class, object source, params string[] properties)
+        {
+            var result = GetFromProperties(source, properties);
+            result.Class = @class;
+            return result;
+        }
     }
 }
