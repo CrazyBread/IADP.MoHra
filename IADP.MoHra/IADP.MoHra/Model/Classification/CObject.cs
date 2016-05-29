@@ -9,7 +9,8 @@ namespace IADP.MoHra.Model.Classification
     public class CObject
     {
         public CClass Class { set; get; }
-        public Dictionary<string,decimal> AttributeValues { get; }
+        public Dictionary<string, decimal> AttributeValues { get; }
+        public decimal[] Attributes { get { return AttributeValues.OrderBy(i => i.Key).Select(i => i.Value).ToArray(); } }
 
         public CObject()
         {
