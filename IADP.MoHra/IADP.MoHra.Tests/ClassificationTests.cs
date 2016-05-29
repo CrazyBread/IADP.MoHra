@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using IADP.MoHra.Helpers;
 using IADP.MoHra.Model.Classification;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -56,6 +58,39 @@ namespace IADP.MoHra.Tests
             Assert.IsNotNull(objCl2);
             Assert.AreEqual("Plus", objCl1.Name);
             Assert.AreEqual("Minus", objCl2.Name);
+        }
+
+        [TestMethod]
+        public void Classification_Fitness_Test1()
+        {
+            var cl1 = new List<CObject>();
+            var cl2 = new List<CObject>();
+
+            cl1.Add(CObjectFactory.GetFromProperties(new { x = 1, y = 1 }, "x", "y"));
+            cl1.Add(CObjectFactory.GetFromProperties(new { x = 1, y = 2 }, "x", "y"));
+            cl1.Add(CObjectFactory.GetFromProperties(new { x = 2, y = 1 }, "x", "y"));
+            cl1.Add(CObjectFactory.GetFromProperties(new { x = 2, y = 2 }, "x", "y"));
+            cl1.Add(CObjectFactory.GetFromProperties(new { x = 3, y = 3 }, "x", "y"));
+
+            cl2.Add(CObjectFactory.GetFromProperties(new { x = -1, y = -1 }, "x", "y"));
+            cl2.Add(CObjectFactory.GetFromProperties(new { x = -1, y = -2 }, "x", "y"));
+            cl2.Add(CObjectFactory.GetFromProperties(new { x = -2, y = -1 }, "x", "y"));
+            cl2.Add(CObjectFactory.GetFromProperties(new { x = -2, y = -2 }, "x", "y"));
+            cl2.Add(CObjectFactory.GetFromProperties(new { x = -3, y = -3 }, "x", "y"));
+
+            var line1Attrs = new decimal[] { 1, 1, 0 };
+            var line2Attrs = new decimal[] { 1, 1, 1 };
+            var line3Attrs = new decimal[] { 1, -1, 0 };
+            var line4Attrs = new decimal[] { 0, 1, -10 };
+
+            var val1 = FitnessValueHelper.GetValue(cl1, cl2, line1Attrs);
+            var val2 = FitnessValueHelper.GetValue(cl1, cl2, line2Attrs);
+            var val3 = FitnessValueHelper.GetValue(cl1, cl2, line3Attrs);
+            var val4 = FitnessValueHelper.GetValue(cl1, cl2, line4Attrs);
+
+            Assert.IsTrue(val1 > val2);
+            Assert.IsTrue(val2 > val3);
+            Assert.IsTrue(val3 > val4);
         }
     }
 }
