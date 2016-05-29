@@ -68,6 +68,7 @@
     <Compile Include="Model\Classification\CResolver.cs" />
     <Compile Include="Model\Classification\CSpace.cs" />
     <Compile Include="Helpers\FitnessValueHelper.cs" />
+    <Compile Include="Model\Classification\GeneticAlgorithm.cs" />
     <Compile Include="Model\DB.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
