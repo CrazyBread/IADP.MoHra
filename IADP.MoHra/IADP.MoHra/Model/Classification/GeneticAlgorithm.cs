@@ -12,12 +12,12 @@ namespace IADP.MoHra.Model.Classification
         private static readonly int _iterationsCount = 100;
         private static readonly int _objCount = 20;
 
-        public static decimal[] StartAlgorithm(CSpace space)
+        public static decimal[] StartAlgorithm(CSpace space, CClass class1, CClass class2)
         {
 #warning "ДОДЕЛАТь"
             var currentGenertaion = _GetFirstGeneration(space);
-            var class1Objects = space.Objects.Where(d => d.Class.Name == "Plus").ToList();
-            var class2Objects = space.Objects.Where(d => d.Class.Name == "Minus").ToList();
+            var class1Objects = space.Objects.Where(d => d.Class == class1).ToList();
+            var class2Objects = space.Objects.Where(d => d.Class == class2).ToList();
             List<KeyValuePair<decimal[], decimal>> fitnessValues = _GetFitnessValues(class1Objects, class2Objects, currentGenertaion);
 
             for (int i = 0; i < _iterationsCount; i++)

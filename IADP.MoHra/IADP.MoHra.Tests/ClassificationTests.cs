@@ -92,5 +92,51 @@ namespace IADP.MoHra.Tests
             Assert.IsTrue(val2 > val3);
             Assert.IsTrue(val3 > val4);
         }
+
+        [TestMethod]
+        public void Classification_Resolver_2_3()
+        {
+            var space = new CSpace();
+            var cl1 = new CClass() { Name = "Plus" };
+            var cl2 = new CClass() { Name = "AbsMinus" };
+            var cl3 = new CClass() { Name = "Minus" };
+
+            space.Classes.Add(cl1);
+            space.Classes.Add(cl2);
+            space.Classes.Add(cl3);
+
+            // 1 четверть
+            space.Objects.Add(CObjectFactory.GetFromProperties(cl1, new { x = 1, y = 1 }, "x", "y"));
+            space.Objects.Add(CObjectFactory.GetFromProperties(cl1, new { x = 1, y = 2 }, "x", "y"));
+            space.Objects.Add(CObjectFactory.GetFromProperties(cl1, new { x = 2, y = 1 }, "x", "y"));
+            space.Objects.Add(CObjectFactory.GetFromProperties(cl1, new { x = 2, y = 2 }, "x", "y"));
+            space.Objects.Add(CObjectFactory.GetFromProperties(cl1, new { x = 3, y = 3 }, "x", "y"));
+
+            // 2 четверть
+            space.Objects.Add(CObjectFactory.GetFromProperties(cl2, new { x = -1, y = 1 }, "x", "y"));
+            space.Objects.Add(CObjectFactory.GetFromProperties(cl2, new { x = -1, y = 2 }, "x", "y"));
+            space.Objects.Add(CObjectFactory.GetFromProperties(cl2, new { x = -2, y = 1 }, "x", "y"));
+            space.Objects.Add(CObjectFactory.GetFromProperties(cl2, new { x = -2, y = 2 }, "x", "y"));
+            space.Objects.Add(CObjectFactory.GetFromProperties(cl2, new { x = -3, y = 3 }, "x", "y"));
+
+            // 3 четверть
+            space.Objects.Add(CObjectFactory.GetFromProperties(cl3, new { x = -1, y = -1 }, "x", "y"));
+            space.Objects.Add(CObjectFactory.GetFromProperties(cl3, new { x = -1, y = -2 }, "x", "y"));
+            space.Objects.Add(CObjectFactory.GetFromProperties(cl3, new { x = -2, y = -1 }, "x", "y"));
+            space.Objects.Add(CObjectFactory.GetFromProperties(cl3, new { x = -2, y = -2 }, "x", "y"));
+            space.Objects.Add(CObjectFactory.GetFromProperties(cl3, new { x = -3, y = -3 }, "x", "y"));
+
+            var resolver = new CResolver(space);
+            var objCl1 = resolver.Resolve(CObjectFactory.GetFromProperties(new { x = 4, y = 4 }, "x", "y"));
+            var objCl2 = resolver.Resolve(CObjectFactory.GetFromProperties(new { x = -4, y = -4 }, "x", "y"));
+            var objCl3 = resolver.Resolve(CObjectFactory.GetFromProperties(new { x = -4, y = 4 }, "x", "y"));
+
+            Assert.IsNotNull(objCl1);
+            Assert.IsNotNull(objCl2);
+            Assert.IsNotNull(objCl3);
+            Assert.AreEqual("Plus", objCl1.Name);
+            Assert.AreEqual("AbsMinus", objCl2.Name);
+            Assert.AreEqual("Minus", objCl2.Name);
+        }
     }
 }
