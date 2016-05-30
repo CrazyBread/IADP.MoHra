@@ -9,12 +9,11 @@ namespace IADP.MoHra.Model.Classification
     public static class GeneticAlgorithm
     {
         private static readonly Random _rnd = new Random();
-        private static readonly int _iterationsCount = 100;
+        private static readonly int _iterationsCount = 50;
         private static readonly int _objCount = 20;
 
         public static decimal[] StartAlgorithm(CSpace space, CClass class1, CClass class2)
         {
-#warning "ДОДЕЛАТь"
             var currentGenertaion = _GetFirstGeneration(space);
             var class1Objects = space.Objects.Where(d => d.Class == class1).ToList();
             var class2Objects = space.Objects.Where(d => d.Class == class2).ToList();
@@ -26,7 +25,7 @@ namespace IADP.MoHra.Model.Classification
                 fitnessValues = _GetFitnessValues(class1Objects, class2Objects, currentGenertaion);
             }
 
-            return fitnessValues.OrderBy(d => d.Value).Select(d => d.Key).FirstOrDefault();
+            return fitnessValues.OrderByDescending(d => d.Value).Select(d => d.Key).FirstOrDefault();
         }
 
         private static decimal [][] _GetFirstGeneration(CSpace space)
@@ -59,28 +58,38 @@ namespace IADP.MoHra.Model.Classification
                 decimal[] parent1 = null;
                 decimal[] parent2 = null;
 
-                if (i < selection.Count())
+                if (i % 10 == 0)
                 {
-                    parent1 = selection[i];
-
-                    if (i + 1 < selection.Count())
-                        parent2 = selection[i + 1];
-                    else
-                        parent2 = selection[i - 2];
+                    for (int j = 0; j < attrCount; j++)
+                        result[i][j] = (decimal)_rnd.NextDouble() * 2 - 1;
                 }
                 else
                 {
-                    var index = _rnd.Next(0, selection.Count());
-                    parent1 = selection[index];
-                    if (index + 3 < selection.Count())
-                        parent2 = selection[index + 3];
-                    else
-                        parent2 = selection[index - 4];
-                }
-                
+                    double rnd = _rnd.NextDouble();
 
-                for (int j = 0; j < attrCount; j++)
-                    result[i][j] = parent1[j] > parent2[j] ? parent1[j] : parent2[j];
+                    if (i < selection.Count())
+                    {
+                        parent1 = selection[i];
+
+                        if (i + 1 < selection.Count())
+                            parent2 = selection[i + 1];
+                        else
+                            parent2 = selection[i - 2];
+                    }
+                    else
+                    {
+                        var index = _rnd.Next(0, selection.Count());
+                        parent1 = selection[index];
+                        if (index + 3 < selection.Count())
+                            parent2 = selection[index + 3];
+                        else
+                            parent2 = selection[index - 4];
+                    }
+
+
+                    for (int j = 0; j < attrCount; j++)
+                        result[i][j] = rnd > 0.5 ? parent1[j] : parent2[j];
+                }
             }
 
             return result;
@@ -88,8 +97,8 @@ namespace IADP.MoHra.Model.Classification
 
         private static decimal[][] _GetSelection(List<KeyValuePair<decimal[], decimal>> fitnessValues)
         {
-            var selection = fitnessValues.OrderBy(d => d.Value).Select(d => d.Key).Take(5);
-            selection = selection.Union(fitnessValues.OrderByDescending(d => d.Value).Select(d => d.Key).Take(5));
+            var selection = fitnessValues.OrderBy(d => d.Value).Select(d => d.Key).Take(10);
+            selection = selection.Concat(fitnessValues.OrderByDescending(d => d.Value).Select(d => d.Key).Take(10));
             return selection.ToArray();
         }
     }

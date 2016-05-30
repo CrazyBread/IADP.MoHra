@@ -98,8 +98,8 @@ namespace IADP.MoHra.Tests
         {
             var space = new CSpace();
             var cl1 = new CClass() { Name = "Plus" };
-            var cl2 = new CClass() { Name = "AbsMinus" };
-            var cl3 = new CClass() { Name = "Minus" };
+            var cl2 = new CClass() { Name = "Minus" };
+            var cl3 = new CClass() { Name = "AbsMinus" };
 
             space.Classes.Add(cl1);
             space.Classes.Add(cl2);
@@ -136,7 +136,7 @@ namespace IADP.MoHra.Tests
             Assert.IsNotNull(objCl3);
             Assert.AreEqual("Plus", objCl1.Name);
             Assert.AreEqual("AbsMinus", objCl2.Name);
-            Assert.AreEqual("Minus", objCl2.Name);
+            Assert.AreEqual("Minus", objCl3.Name);
         }
     }
 }
