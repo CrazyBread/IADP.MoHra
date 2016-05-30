@@ -360,5 +360,11 @@ namespace IADP.MoHra.UI
             var graphForm = new GraphForm();
             graphForm.ShowDialog();
         }
+
+        private void classToolStripMenuItem_Click(object sender, System.EventArgs e)
+        {
+            var classificationFrom = new ClassificationForm();
+            classificationFrom.ShowDialog();
+        }
     }
 }

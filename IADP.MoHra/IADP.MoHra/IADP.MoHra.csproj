@@ -154,6 +154,12 @@
     <Compile Include="UI\ResumeForm.Designer.cs">
       <DependentUpon>ResumeForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="UI\ClassificationForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\ClassificationForm.Designer.cs">
+      <DependentUpon>ClassificationForm.cs</DependentUpon>
+    </Compile>
     <EmbeddedResource Include="UI\GraphForm.resx">
       <DependentUpon>GraphForm.cs</DependentUpon>
     </EmbeddedResource>
@@ -174,6 +180,9 @@
     </Compile>
     <EmbeddedResource Include="UI\ResumeForm.resx">
       <DependentUpon>ResumeForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\ClassificationForm.resx">
+      <DependentUpon>ClassificationForm.cs</DependentUpon>
     </EmbeddedResource>
     <EntityDeploy Include="Model\DB.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
