@@ -49,18 +49,18 @@ namespace IADP.MoHra.UI
                 space.Classes.Add(middle);
                 space.Classes.Add(junior);
 
-                space.Objects.Add(CObjectFactory.GetFromProperties(senior, new { codePoints = 7, databasePoints = 4, experience = 10, education = 5 }, "codePoints", "databasePoints", "experience", "education"));
-                space.Objects.Add(CObjectFactory.GetFromProperties(senior, new { codePoints = 6, databasePoints = 4, experience = 3, education = 5 }, "codePoints", "databasePoints", "experience", "education"));
-                space.Objects.Add(CObjectFactory.GetFromProperties(senior, new { codePoints = 6, databasePoints = 4, experience = 2, education = 5 }, "codePoints", "databasePoints", "experience", "education"));
+                space.Objects.Add(CObjectFactory.GetFromProperties(senior, new { codePoints = 7, databasePoints = 5, experience = 120, education = 5 }, "codePoints", "databasePoints", "experience", "education"));
+                space.Objects.Add(CObjectFactory.GetFromProperties(senior, new { codePoints = 6, databasePoints = 5, experience = 21, education = 4 }, "codePoints", "databasePoints", "experience", "education"));
+                space.Objects.Add(CObjectFactory.GetFromProperties(senior, new { codePoints = 6, databasePoints = 4, experience = 25, education = 4 }, "codePoints", "databasePoints", "experience", "education"));
 
-                space.Objects.Add(CObjectFactory.GetFromProperties(middle, new { codePoints = 5, databasePoints = 4, experience = 2, education = 4 }, "codePoints", "databasePoints", "experience", "education"));
-                space.Objects.Add(CObjectFactory.GetFromProperties(middle, new { codePoints = 5, databasePoints = 3, experience = 2, education = 4 }, "codePoints", "databasePoints", "experience", "education"));
-                space.Objects.Add(CObjectFactory.GetFromProperties(middle, new { codePoints = 4, databasePoints = 2, experience = 1, education = 4 }, "codePoints", "databasePoints", "experience", "education"));
-                space.Objects.Add(CObjectFactory.GetFromProperties(middle, new { codePoints = 3, databasePoints = 2, experience = 1, education = 4 }, "codePoints", "databasePoints", "experience", "education"));
+                space.Objects.Add(CObjectFactory.GetFromProperties(middle, new { codePoints = 5, databasePoints = 3, experience = 20, education = 4 }, "codePoints", "databasePoints", "experience", "education"));
+                space.Objects.Add(CObjectFactory.GetFromProperties(middle, new { codePoints = 4, databasePoints = 4, experience = 25, education = 4 }, "codePoints", "databasePoints", "experience", "education"));
+                space.Objects.Add(CObjectFactory.GetFromProperties(middle, new { codePoints = 3, databasePoints = 3, experience = 19, education = 3 }, "codePoints", "databasePoints", "experience", "education"));
+                space.Objects.Add(CObjectFactory.GetFromProperties(middle, new { codePoints = 5, databasePoints = 3, experience = 19, education = 3 }, "codePoints", "databasePoints", "experience", "education"));
 
-                space.Objects.Add(CObjectFactory.GetFromProperties(junior, new { codePoints = 2, databasePoints = 2, experience = 1, education = 4 }, "codePoints", "databasePoints", "experience", "education"));
-                space.Objects.Add(CObjectFactory.GetFromProperties(junior, new { codePoints = 1, databasePoints = 2, experience = 0, education = 4 }, "codePoints", "databasePoints", "experience", "education"));
-                space.Objects.Add(CObjectFactory.GetFromProperties(junior, new { codePoints = 1, databasePoints = 1, experience = 0, education = 5 }, "codePoints", "databasePoints", "experience", "education"));
+                space.Objects.Add(CObjectFactory.GetFromProperties(junior, new { codePoints = 4, databasePoints = 2, experience = 7, education = 4 }, "codePoints", "databasePoints", "experience", "education"));
+                space.Objects.Add(CObjectFactory.GetFromProperties(junior, new { codePoints = 2, databasePoints = 1, experience = 9, education = 3 }, "codePoints", "databasePoints", "experience", "education"));
+                space.Objects.Add(CObjectFactory.GetFromProperties(junior, new { codePoints = 2, databasePoints = 3, experience = 9, education = 3 }, "codePoints", "databasePoints", "experience", "education"));
 
                 CResolver resolver = new CResolver(space);
                 var result = resolver.Resolve(CObjectFactory.GetFromProperties(new { codePoints = codePointsValue, databasePoints = databasePointsValue, experience = experienceValue, education = educationValue }, "codePoints", "databasePoints", "experience", "education"));
