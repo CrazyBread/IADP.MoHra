@@ -86,7 +86,6 @@ namespace IADP.MoHra.Model.Classification
                             parent2 = selection[index - 4];
                     }
 
-
                     for (int j = 0; j < attrCount; j++)
                         result[i][j] = rnd > 0.5 ? parent1[j] : parent2[j];
                 }
@@ -97,7 +96,7 @@ namespace IADP.MoHra.Model.Classification
 
         private static decimal[][] _GetSelection(List<KeyValuePair<decimal[], decimal>> fitnessValues)
         {
-            var selection = fitnessValues.OrderBy(d => d.Value).Select(d => d.Key).Take(10);
+            var selection = fitnessValues.OrderBy(d => d.Value).Select(d => d.Key).Take(2);
             selection = selection.Concat(fitnessValues.OrderByDescending(d => d.Value).Select(d => d.Key).Take(10));
             return selection.ToArray();
         }

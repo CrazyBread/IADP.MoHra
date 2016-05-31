@@ -89,7 +89,7 @@ namespace IADP.MoHra.Helpers
                 componentSecond = _GetValueSecondComponent(minDistanceBetweenClasses, minDistanceFromC1, minDistanceFromC2);
             }
 
-            return componentFirst + componentSecond;
+            return componentFirst * 10 + componentSecond;
         }
 
         private static void _Check(List<CObject> c1, List<CObject> c2, params decimal[] gens)
