@@ -9,8 +9,9 @@ namespace IADP.MoHra.Model.Classification
     public static class GeneticAlgorithm
     {
         private static readonly Random _rnd = new Random();
-        private static readonly int _iterationsCount = 50;
+        private static readonly int _iterationsCount = 10000;
         private static readonly int _objCount = 20;
+        private static readonly decimal _epsilon = 0.001M;
 
         public static decimal[] StartAlgorithm(CSpace space, CClass class1, CClass class2)
         {
@@ -19,10 +20,17 @@ namespace IADP.MoHra.Model.Classification
             var class2Objects = space.Objects.Where(d => d.Class == class2).ToList();
             List<KeyValuePair<decimal[], decimal>> fitnessValues = _GetFitnessValues(class1Objects, class2Objects, currentGenertaion);
 
+            decimal oldFitnessValue = -100;
             for (int i = 0; i < _iterationsCount; i++)
             {
                 currentGenertaion = _GetNextGeneration(fitnessValues);
                 fitnessValues = _GetFitnessValues(class1Objects, class2Objects, currentGenertaion);
+                decimal currentFittnesValues = fitnessValues.OrderByDescending(d => d.Value).Select(d => d.Value).Average();
+                
+                if (Math.Abs(currentFittnesValues - oldFitnessValue) <= _epsilon)
+                    break;
+                else
+                    oldFitnessValue = currentFittnesValues;
             }
 
             return fitnessValues.OrderByDescending(d => d.Value).Select(d => d.Key).FirstOrDefault();
