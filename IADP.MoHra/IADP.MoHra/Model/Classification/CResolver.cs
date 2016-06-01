@@ -8,6 +8,10 @@ namespace IADP.MoHra.Model.Classification
 {
     public class CResolver
     {
+        private bool isProcessed = false;
+        Dictionary<CClassPair, decimal[]> classesBorder = new Dictionary<CClassPair, decimal[]>();
+        Dictionary<CClass, decimal[]> classesCentres = new Dictionary<CClass, decimal[]>();
+
         public CSpace Space { get; }
 
         public CResolver(CSpace space)
@@ -20,30 +24,31 @@ namespace IADP.MoHra.Model.Classification
             Space.Check(newObject);
 
             var newObjIncludes = new Dictionary<CClass, byte>();
-            var classesBorder = new Dictionary<CClassPair, decimal[]>();
-            var classesCentres = new Dictionary<CClass, decimal[]>();
-
-            int dimensions = Space.Objects.First().Attributes.Length;
-            
             foreach (var cls in Space.Classes)
-            {
                 newObjIncludes.Add(cls, 0);
+            int dimensions = Space.Objects.First().Attributes.Length;
 
-                var attrs = Space.Objects.Where(i => i.Class == cls).Select(i => i.Attributes).ToList();
-                var clsCentreAttr = new decimal[dimensions];
-                for (int i = 0; i < clsCentreAttr.Length; i++)
-                    clsCentreAttr[i] = attrs.Average(j => j[i]);
-                classesCentres.Add(cls, clsCentreAttr);
-            }
-
-            var classesOrdered = Space.Classes.OrderBy(i => i.Name).ToList();
-            for (int i = 0; i < classesOrdered.Count - 1; i++)
+            if (!isProcessed)
             {
-                for (int j = i + 1; j < classesOrdered.Count; j++)
+                foreach (var cls in Space.Classes)
                 {
-                    var resultVal = GeneticAlgorithm.StartAlgorithm(Space, classesOrdered[i], classesOrdered[j]);
-                    classesBorder.Add(new CClassPair(classesOrdered[i], classesOrdered[j]), resultVal);
+                    var attrs = Space.Objects.Where(i => i.Class == cls).Select(i => i.Attributes).ToList();
+                    var clsCentreAttr = new decimal[dimensions];
+                    for (int i = 0; i < clsCentreAttr.Length; i++)
+                        clsCentreAttr[i] = attrs.Average(j => j[i]);
+                    classesCentres.Add(cls, clsCentreAttr);
                 }
+
+                var classesOrdered = Space.Classes.OrderBy(i => i.Name).ToList();
+                for (int i = 0; i < classesOrdered.Count - 1; i++)
+                {
+                    for (int j = i + 1; j < classesOrdered.Count; j++)
+                    {
+                        var resultVal = GeneticAlgorithm.StartAlgorithm(Space, classesOrdered[i], classesOrdered[j]);
+                        classesBorder.Add(new CClassPair(classesOrdered[i], classesOrdered[j]), resultVal);
+                    }
+                }
+                isProcessed = true;
             }
 
             CClass result = null;
@@ -61,7 +66,7 @@ namespace IADP.MoHra.Model.Classification
                     newObjValue += newObjAttrs[i] * clBorder.Value[i];
                 newObjValue += clBorder.Value[dimensions];
 
-                ++newObjIncludes[c1Value*newObjValue > 0 ? clBorder.Key.C1 : clBorder.Key.C2];
+                ++newObjIncludes[c1Value * newObjValue > 0 ? clBorder.Key.C1 : clBorder.Key.C2];
             }
 
             var maxIncMaxVal = newObjIncludes.Max(i => i.Value);
