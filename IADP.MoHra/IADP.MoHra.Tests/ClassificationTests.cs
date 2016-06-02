@@ -138,5 +138,49 @@ namespace IADP.MoHra.Tests
             Assert.AreEqual("AbsMinus", objCl2.Name);
             Assert.AreEqual("Minus", objCl3.Name);
         }
+
+        [TestMethod]
+        public void Classification_Resolver_2_4()
+        {
+            var space = new CSpace();
+
+            var senior = new CClass() { Name = "Старший разработчик" };
+            var middle = new CClass() { Name = "Средний разработчик" };
+            var junior = new CClass() { Name = "Младший разработчик" };
+
+            space.Classes.Add(senior);
+            space.Classes.Add(middle);
+            space.Classes.Add(junior);
+
+            space.Objects.Add(CObjectFactory.GetFromProperties(senior, new { codePoints = 6, databasePoints = 5, experience = 21, education = 4 }, "codePoints", "databasePoints", "experience", "education"));
+
+            space.Objects.Add(CObjectFactory.GetFromProperties(middle, new { codePoints = 5, databasePoints = 3, experience = 20, education = 4 }, "codePoints", "databasePoints", "experience", "education"));
+
+            space.Objects.Add(CObjectFactory.GetFromProperties(junior, new { codePoints = 2, databasePoints = 1, experience = 9, education = 3 }, "codePoints", "databasePoints", "experience", "education"));
+
+            List<CObject> unknownObjects = new List<CObject>();
+            unknownObjects.Add(CObjectFactory.GetFromProperties(senior, new { codePoints = 7, databasePoints = 5, experience = 120, education = 5 }, "codePoints", "databasePoints", "experience", "education"));
+            unknownObjects.Add(CObjectFactory.GetFromProperties(senior, new { codePoints = 6, databasePoints = 4, experience = 25, education = 4 }, "codePoints", "databasePoints", "experience", "education"));
+
+            
+            unknownObjects.Add(CObjectFactory.GetFromProperties(middle, new { codePoints = 4, databasePoints = 4, experience = 25, education = 4 }, "codePoints", "databasePoints", "experience", "education"));
+            unknownObjects.Add(CObjectFactory.GetFromProperties(middle, new { codePoints = 3, databasePoints = 3, experience = 19, education = 3 }, "codePoints", "databasePoints", "experience", "education"));
+            unknownObjects.Add(CObjectFactory.GetFromProperties(middle, new { codePoints = 5, databasePoints = 3, experience = 19, education = 3 }, "codePoints", "databasePoints", "experience", "education"));
+
+            unknownObjects.Add(CObjectFactory.GetFromProperties(junior, new { codePoints = 4, databasePoints = 2, experience = 7, education = 4 }, "codePoints", "databasePoints", "experience", "education"));
+            unknownObjects.Add(CObjectFactory.GetFromProperties(junior, new { codePoints = 2, databasePoints = 3, experience = 9, education = 3 }, "codePoints", "databasePoints", "experience", "education"));
+
+            CResolver resolver = new CResolver(space);
+
+            int verifiedCount = 0;
+            foreach (var obj in unknownObjects)
+            {
+                var calcClass = resolver.Resolve(obj);
+                if (calcClass != null && calcClass.Equals(obj.Class))
+                    verifiedCount++;
+            }
+
+            Assert.IsTrue(verifiedCount * 1.0 / unknownObjects.Count > 0.75);
+        }
     }
 }
