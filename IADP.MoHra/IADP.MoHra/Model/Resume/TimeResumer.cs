@@ -49,6 +49,8 @@ namespace IADP.MoHra.Model.Resume
                                , Claster = g.Key
                                , A3_Value = g.Select(i => (double)i.Value).Average()
                                , A4_Value = g.Count()
+                               , A3_Values = g.Select(i => (double)i.Value).ToList()
+                               , A4_Values = g.Select(i => (double)i.Value).ToList()
                            };
                 resultList = resultList.Union(list).ToList();
             }
@@ -90,7 +92,26 @@ namespace IADP.MoHra.Model.Resume
                         stringValue = "слабое падение";
                     else throw new ArgumentException();
 
-                    result += $"<td>{stringValue}<br/><small>(с.и.: {scaleValue.Value:0.00})</small></td>";
+                    int cValueCount = 0, allCnt = 0;
+                    for (int i = 0; i < item.value.A3_Values.Count(); i++)
+                    {
+                        try
+                        {
+                            var cValue = item.value.A3_Values[i] - beforeItem.A3_Values[i];
+                            var csacleValue = scale.GetAccessory((decimal)cValue);
+                            if (scaleValue.Name == csacleValue.Name)
+                                cValueCount++;
+                            allCnt++;
+                        }
+                        catch 
+                        {
+                        }
+                    }
+                    var tendation = "распределено равномерно";
+                    if (1.0*cValueCount/allCnt > 0.5)
+                        tendation = "типичная тенденция";
+
+                    result += $"<td>{stringValue}<br/><small>(с.и.: {scaleValue.Value:0.00})<br/>{tendation}</small></td>";
                 }
                 result += "</tr>";
             }
@@ -134,6 +155,18 @@ namespace IADP.MoHra.Model.Resume
                         stringValue = "слабое падение";
                     else throw new ArgumentException();
 
+                    //int cValueCount = 0;
+                    //for (int i = 0; i < item.value.A4_Values.Count(); i++)
+                    //{
+                    //    var cValue = item.value.A4_Values[i] - beforeItem.A4_Values[i];
+                    //    var csacleValue = scale.GetAccessory((decimal)cValue);
+                    //    if (scaleValue.Name == csacleValue.Name)
+                    //        cValueCount++;
+                    //}
+                    //var tendation = "распределено равномерно";
+                    //if (1.0 * cValueCount / item.value.A4_Values.Count() > 0.6)
+                    //    tendation = "типичная тенденция";
+
                     result += $"<td>{stringValue}<br/><small>(с.и.: {scaleValue.Value:0.00})</small></td>";
                 }
                 result += "</tr>";
@@ -144,3 +177,4 @@ namespace IADP.MoHra.Model.Resume
         }
     }
 }
+ 

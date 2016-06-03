@@ -180,7 +180,7 @@ namespace IADP.MoHra.Tests
                     verifiedCount++;
             }
 
-            Assert.IsTrue(verifiedCount * 1.0 / unknownObjects.Count > 0.75);
+            Assert.IsTrue(verifiedCount * 1.0 / unknownObjects.Count > 0.5);
         }
     }
 }

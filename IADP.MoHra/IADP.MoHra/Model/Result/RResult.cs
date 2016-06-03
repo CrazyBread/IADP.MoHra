@@ -16,6 +16,8 @@ namespace IADP.MoHra.Model.Result
     {
         public DateTime Month { set; get; }
         public char Claster { set; get; }
+        public List<double> A3_Values { set; get; }
+        public List<double> A4_Values { set; get; }
         public double A3_Value { set; get; }
         public int A4_Value { set; get; }
     }

@@ -16,5 +16,10 @@ namespace IADP.MoHra.Model.Classification
         {
             AttributeValues = new Dictionary<string, decimal>();
         }
+
+        public override string ToString()
+        {
+            return "Obj with Class " + (Class != null ? Class.ToString() : "null");
+        }
     }
 }

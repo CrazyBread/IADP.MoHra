@@ -50,6 +50,26 @@ namespace IADP.MoHra.Model.Resume
                 var claster = objectsInClasters.First(i => i.Count == maxObjects);
                 result += $"<p>Кластер с наибольшим числом элементов: {ClasterHelper.GetFullName(claster.Claster)}. Число элементов: {claster.Count}.</p>";
             }
+            
+            var clasterList = clastResult.Select(i => i.Value.Claster).Distinct();
+            foreach (var claster in clasterList)
+            {
+                var objInCluster = clastResult.Where(i => i.Value.Claster == claster).ToList();
+                var clName = ClasterHelper.GetFullName(claster);
+                var percentCnt = objectsInClasters.First(i => i.Claster == claster).Count * 100 / objects;
+                var avgVal = objInCluster.Average(i => i.Value.Points);
+                var minVal = objInCluster.Min(i => i.Value.Points);
+                var maxVal = objInCluster.Max(i => i.Value.Points);
+
+                result += $"<h3>Кластер {clName}</h3>";
+                result += $"<p>Кластер {clName} содержит {percentCnt}% исследуемых объектов.</p>";
+                result += $"<p>Характеристика признаков, по которым проводилась кластеризация, в кластере {clName}.</p>" +
+                          $"<p><strong>Уровень разработки:</strong><ul>" +
+                          $"<li>Среднее значение = {avgVal}</li>" +
+                          $"<li>Минимальное значение = {minVal}</li>" +
+                          $"<li>Максимальное значение = {maxVal}</li>" +
+                          $"</ul></p>";
+            }
 
             return result;
         }
